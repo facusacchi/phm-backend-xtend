@@ -1,5 +1,22 @@
 USE pregunta3;
 
+-- 1. STORE PROCEDURE ------
+DELIMITER $$
+	CREATE PROCEDURE PREGUNTAS_CREADAS_POR_USUARIO(ID_USUARIO INT)
+		BEGIN
+			SELECT DISTINCT PREGUNTA.id, PREGUNTA.DESCRIPCION
+			FROM PREGUNTA
+			INNER JOIN USUARIO
+			ON PREGUNTA.AUTOR_ID = ID_USUARIO
+			ORDER BY DESCRIPCION
+			;
+		END ; $$
+DELIMITER ;
+
+CALL PREGUNTAS_CREADAS_POR_USUARIO(1);
+
+DROP PROCEDURE PREGUNTAS_CREADAS_POR_USUARIO;
+
 -- 2. TRIGGER ------
 
 CREATE TABLE modificacion(
@@ -25,7 +42,7 @@ delimiter ;
 
 -- FIN TRIGGER ------
 
--- Vista
+-- 3. Vista
 
 create view usuariosConMasDe3Respuestas as
 select usuario.id, usuario.nombre, usuario.apellido, count(usuario.id) as cantidad_de_respuestas
@@ -39,3 +56,6 @@ having cantidad_de_respuestas > 3;
 
 -- fin vista
 
+-- 4. CONSTRAINT -----
+
+ALTER TABLE USUARIO MODIFY PUNTAJE INTEGER NOT NULL;

@@ -24,3 +24,18 @@ END; !
 delimiter ;
 
 -- FIN TRIGGER ------
+
+-- Vista
+
+create view usuariosConMasDe3Respuestas as
+select usuario.id, usuario.nombre, usuario.apellido, count(usuario.id) as cantidad_de_respuestas
+from usuario
+join usuario_respuestas
+on usuario.id = usuario_respuestas.usuario_id
+join respuesta
+on usuario_respuestas.respuestas_id = respuesta.id
+group by usuario.id
+having cantidad_de_respuestas > 3;
+
+-- fin vista
+

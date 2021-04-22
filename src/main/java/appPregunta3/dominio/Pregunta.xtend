@@ -112,7 +112,7 @@ class Simple extends Pregunta {
 class DeRiesgo extends Pregunta {
 	
 	@Transient
-	int puntosRestados
+	Integer puntosRestados
 	
 	new() {
 		this.puntos = 100

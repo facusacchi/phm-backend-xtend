@@ -53,8 +53,9 @@ class Usuario {
 	Set<Usuario> amigos = new HashSet<Usuario>
 	
 	@JsonView(View.Usuario.Login, View.Usuario.Perfil)
-	@Column(length=50)
-	int puntaje
+	//@Column(length=50) //UNSIGNED INT(11) 
+	@Column(columnDefinition = "CHECK (puntaje > 0)")
+	Integer puntaje
 	
 	@JsonView(View.Usuario.Perfil)
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
@@ -82,12 +83,12 @@ class Usuario {
 		DateTimeFormatter.ofPattern(DATE_PATTERN)
 	}
 
-	def sumarPuntaje(int puntos) {
-		puntaje += puntos
+	def sumarPuntaje(Integer puntos) {
+		puntaje = puntaje + puntos
 	}
 
-	def restarPuntaje(int puntos) {
-		puntaje -= puntos
+	def restarPuntaje(Integer puntos) {
+		puntaje = puntaje - puntos
 	}
 
 	def cumpleCondicionDeBusqueda(String valorBusqueda) {

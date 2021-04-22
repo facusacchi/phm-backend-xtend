@@ -22,7 +22,7 @@ class Respuesta {
 	LocalDate fechaRespuesta
 	
 	@JsonView(View.Usuario.Perfil)
-	int puntos
+	Integer puntos
 	
 	@JsonView(View.Usuario.Perfil)
 	String pregunta 

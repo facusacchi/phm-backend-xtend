@@ -58,6 +58,12 @@ class Bootstrap implements InitializingBean {
 				puntos = 100
 				fechaRespuesta = LocalDate.of(2021, 3, 24)
 			])
+			
+			agregarRespuesta(new Respuesta => [
+				pregunta = "¿De que color es el cielo?"
+				puntos = 50
+				fechaRespuesta = LocalDate.of(2021, 5, 3)
+			])
 		]
 
 		this.crearUsuario(pepe)
@@ -69,6 +75,24 @@ class Bootstrap implements InitializingBean {
 			password = "456"
 			puntaje = 304
 			fechaDeNacimiento = LocalDate.of(1995, 10, 4)
+
+			agregarRespuesta(new Respuesta => [
+				pregunta = "¿Cuantas provincias tiene Argentina?"
+				puntos = 100
+				fechaRespuesta = LocalDate.of(2021, 3, 24)
+			])
+
+			agregarRespuesta(new Respuesta => [
+				pregunta = "¿Cuantas provincias tiene Argentina?"
+				puntos = 100
+				fechaRespuesta = LocalDate.of(2021, 3, 24)
+			])
+			
+			agregarRespuesta(new Respuesta => [
+				pregunta = "¿De que color es el cielo?"
+				puntos = 50
+				fechaRespuesta = LocalDate.of(2021, 5, 3)
+			])
 		]
 
 		manolo.agregarAmigo(pepe)
@@ -156,7 +180,7 @@ class Bootstrap implements InitializingBean {
 
 //########################### INIT PREGUNTAS #####################################################//	
 	def void initPreguntas() {
-		
+
 		this.crearPregunta(new Simple => [
 			descripcion = "¿Por que sibarita es tan rica?"
 			autor = pepe
@@ -237,18 +261,17 @@ class Bootstrap implements InitializingBean {
 	}
 
 //######################### IMPLEMENTATION METHODS ##########################################
-	
 	def void crearUsuario(Usuario usuario) {
 		repoUsuario.save(usuario)
 		println("Usuario " + usuario.userName + " creado")
 	}
-	
+
 	def void crearPregunta(Pregunta pregunta) {
 		repoPregunta.save(pregunta)
 		println("Pregunta " + pregunta.descripcion + " creada")
 	}
-	
-		override afterPropertiesSet() throws Exception {
+
+	override afterPropertiesSet() throws Exception {
 		println("************************************************************************")
 		println("Running initialization")
 		println("************************************************************************")

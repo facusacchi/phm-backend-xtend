@@ -53,8 +53,8 @@ class Usuario {
 	Set<Usuario> amigos = new HashSet<Usuario>
 	
 	@JsonView(View.Usuario.Login, View.Usuario.Perfil)
-	//@Column(length=50) //UNSIGNED INT(11) 
-	@Column(columnDefinition = "CHECK (puntaje > 0)")
+	@Column(length=50) //UNSIGNED INT(11) 
+	//@Column(columnDefinition = "CHECK (puntaje > 0)")
 	Integer puntaje
 	
 	@JsonView(View.Usuario.Perfil)

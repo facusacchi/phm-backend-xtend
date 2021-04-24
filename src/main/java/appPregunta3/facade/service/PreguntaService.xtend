@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionPregunta.*
 import static extension appPregunta3.validaciones.ValidacionId.*
-import appPregunta3.dto.PreguntaDTO
 
 @Service
 class PreguntaService extends TemplateService {
@@ -37,16 +36,7 @@ class PreguntaService extends TemplateService {
 	def preguntaPorId(Long id) {
 		id.validarId
 		val pregunta = buscarPregunta(id)
-		val activa = pregunta.estaActiva
-		val preguntaDto = new PreguntaDTO(
-			pregunta.id,
-			pregunta.puntos,
-			pregunta.descripcion,
-			pregunta.autor.nombre + " " + pregunta.autor.apellido,
-			pregunta.opciones,
-			activa
-		)
-		preguntaDto
+		pregunta
 	}
 	
 	def todasLasPreguntas(Boolean activas, Long idUser) {

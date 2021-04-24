@@ -30,11 +30,11 @@ class Usuario {
 	@JsonView(View.Usuario.Login, View.Usuario.Perfil, View.Usuario.TablaNoAmigos)
 	Long id
 	
-	@JsonView(View.Pregunta.Table, View.Usuario.Login, View.Usuario.Perfil, View.Usuario.TablaNoAmigos)
+	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion, View.Usuario.Login, View.Usuario.Perfil, View.Usuario.TablaNoAmigos)
 	@Column(length=50)
 	String nombre
 	
-	@JsonView(View.Pregunta.Table, View.Usuario.Login, View.Usuario.Perfil, View.Usuario.TablaNoAmigos)
+	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion, View.Usuario.Login, View.Usuario.Perfil, View.Usuario.TablaNoAmigos)
 	@Column(length=50)
 	String apellido
 	

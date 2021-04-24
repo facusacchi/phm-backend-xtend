@@ -41,21 +41,21 @@ import appPregunta3.dominio.Respuesta
 abstract class Pregunta {
 	
 	@Id @GeneratedValue
-	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table])
+	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
 	Long id
 	
-	@JsonView(View.Pregunta.Table)
+	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion)
 	Integer puntos
 	
-	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table])
+	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
 	@Column(length=150)
 	String descripcion
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda])
+	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
 	Usuario autor
 	
-	@JsonView(View.Pregunta.Table)
+	@JsonView(View.Pregunta.Edicion)
 	@Column(length=150)
 	String respuestaCorrecta
 	
@@ -63,7 +63,7 @@ abstract class Pregunta {
 	LocalDateTime fechaHoraCreacion
 	
 	@ElementCollection
-	@JsonView(View.Pregunta.Table)
+	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion)
 	Set<String> opciones = new HashSet<String>
 	
 	static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss"
@@ -81,7 +81,8 @@ abstract class Pregunta {
 	def formatter() {
 		DateTimeFormatter.ofPattern(DATE_PATTERN)
 	}
-
+	
+	@JsonView(View.Pregunta.Table)
 	def estaActiva() {
 		fechaHoraCreacion.plusMinutes(5).isAfter(LocalDateTime.now())
 	}

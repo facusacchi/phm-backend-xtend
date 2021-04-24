@@ -8,6 +8,9 @@ class View {
 		static interface Table {
 		}
 		
+		static interface Edicion {
+		}
+		
 	}
 
 	static interface Usuario {

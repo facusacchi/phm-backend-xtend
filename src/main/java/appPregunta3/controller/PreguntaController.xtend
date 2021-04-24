@@ -29,8 +29,15 @@ class PreguntaController {
 	}
 	
 	@GetMapping("/pregunta/{id}")
-	//@JsonView(value=View.Pregunta.Table)
+	@JsonView(value=View.Pregunta.Table)
 	def preguntaPorId(@PathVariable Long id) {
+		val pregunta = preguntaService.preguntaPorId(id) 
+		ResponseEntity.ok(pregunta)
+	}
+	
+	@GetMapping("/preguntaEdicion/{id}")
+	@JsonView(value=View.Pregunta.Edicion)
+	def preguntaEdicionPorId(@PathVariable Long id) {
 		val pregunta = preguntaService.preguntaPorId(id) 
 		ResponseEntity.ok(pregunta)
 	}

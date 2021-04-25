@@ -48,7 +48,7 @@ class Bootstrap implements InitializingBean {
 			])
 
 			agregarRespuesta(new Respuesta => [
-				pregunta = "¿Cuantas provincias tiene Argentina?"
+				pregunta = "Cocodrilo que durmio es..."
 				puntos = 100
 				fechaRespuesta = LocalDate.of(2021, 3, 24)
 			])
@@ -83,7 +83,7 @@ class Bootstrap implements InitializingBean {
 			])
 
 			agregarRespuesta(new Respuesta => [
-				pregunta = "¿Cuantas provincias tiene Argentina?"
+				pregunta = "Cocodrilo que durmio es..."
 				puntos = 100
 				fechaRespuesta = LocalDate.of(2021, 3, 24)
 			])

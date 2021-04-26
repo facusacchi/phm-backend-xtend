@@ -22,13 +22,23 @@ class PreguntaControllerTest {
 	MockMvc mockMvc
 	
 	@Test
-	@DisplayName("hacer sign in de un usuario")
+	@DisplayName("Buscar pregunta por valor de busqueda, no activa, no respondida por user")
 	def void getPreguntasPorStringNoActivasNoRespondidas() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/preguntas/{valorBusqueda}/{activas}/{idUser}", "Cual es la masa", "false", "1"))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.[0].descripcion").value("¿Cual es la masa del sol?"))
+	}
+	
+	@Test
+	@DisplayName("Buscar pregunta por valor de busqueda, activa, no respondida por user")
+	def void getPreguntasPorStringActivasNoRespondidas() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/preguntas/{valorBusqueda}/{activas}/{idUser}", "mas lento", "true", "1"))
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.[0].descripcion").value("¿Que es mas lento que un piropo de tartamudo?"))
 	}
 	
 }

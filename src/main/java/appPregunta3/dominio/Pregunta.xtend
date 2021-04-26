@@ -25,6 +25,7 @@ import javax.persistence.Transient
 import org.eclipse.xtend.lib.annotations.Accessors
 import appPregunta3.serializer.View
 import appPregunta3.dominio.Respuesta
+import javax.persistence.GenerationType
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -40,7 +41,7 @@ import appPregunta3.dominio.Respuesta
 @Accessors
 abstract class Pregunta {
 	
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.TABLE)
 	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
 	Long id
 	
@@ -84,7 +85,7 @@ abstract class Pregunta {
 	
 	@JsonView(View.Pregunta.Table)
 	def estaActiva() {
-		fechaHoraCreacion.plusMinutes(5).isAfter(LocalDateTime.now())
+		fechaHoraCreacion.plusMinutes(60).isAfter(LocalDateTime.now())
 	}
 	
 	def cumpleCondicionDeBusqueda(String valorBusqueda) {

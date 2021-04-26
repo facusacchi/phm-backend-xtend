@@ -106,6 +106,12 @@ class Bootstrap implements InitializingBean {
 			password = "123"
 			puntaje = 4089
 			fechaDeNacimiento = LocalDate.of(1985, 5, 7)
+			
+			agregarRespuesta(new Respuesta => [
+				pregunta = "¿Cuantas provincias tiene Argentina?"
+				puntos = 100
+				fechaRespuesta = LocalDate.of(2021, 3, 24)
+			])
 		]
 
 		nancy.agregarAmigo(manolo)

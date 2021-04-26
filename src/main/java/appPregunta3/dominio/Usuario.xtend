@@ -21,12 +21,13 @@ import javax.persistence.ManyToMany
 import javax.persistence.OneToMany
 import org.eclipse.xtend.lib.annotations.Accessors
 import appPregunta3.serializer.View
+import javax.persistence.GenerationType
 
 @Entity
 @Accessors
 class Usuario {
 	
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.TABLE)
 	@JsonView(View.Usuario.Login, View.Usuario.Perfil, View.Usuario.TablaNoAmigos)
 	Long id
 	

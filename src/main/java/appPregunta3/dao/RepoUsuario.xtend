@@ -5,6 +5,8 @@ import org.springframework.data.repository.CrudRepository
 import java.util.Optional
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.stereotype.Repository
+import org.springframework.data.jpa.repository.Query
+import java.util.Set
 
 @Repository
 interface RepoUsuario extends CrudRepository<Usuario, Long> {
@@ -13,34 +15,13 @@ interface RepoUsuario extends CrudRepository<Usuario, Long> {
 	
 	def Optional<Usuario> findByUserName(String userName);
 	
-	@EntityGraph(attributePaths=#["amigos"])
-	override findAll()
+//	@EntityGraph(attributePaths=#["amigos"])
+//	override findAll()
 	
-	@EntityGraph(attributePaths=#["respuestas","amigos"])
+	@EntityGraph(attributePaths=#["amigos","respuestas"])
 	override findById(Long id)
 	
-//	def List<Pregunta> search(String value, String activa, Usuario user) {
-//		val preguntas = preguntasNoRespondidasPor(user).filter[object | object.cumpleCondicionDeBusqueda(value)].toList
-//		if(activa == "true") {
-//			return preguntasActivas(preguntas)
-//		} else {			
-//			return preguntas
-//		}
-//	}
-
-
-//	
-//	def searchAmigo(String ami) {
-//		objects.findFirst[obj | ami.contains(obj.nombre) && ami.contains(obj.apellido)]
-//	}
-//	
-//	def modificar(Usuario usuario) {
-//		val usuarioAActualizar = getById(usuario.id.toString)
-//		usuarioAActualizar =>[
-//			nombre = usuario.nombre
-//			apellido = usuario.apellido
-//			fechaDeNacimiento= usuario.fechaDeNacimiento
-//		]
-//	}
-	
+	@Query("SELECT u FROM Usuario u WHERE u not in (
+	SELECT a FROM Usuario u INNER JOIN u.amigos a WHERE u.id = ?1) AND u.id != ?1")
+	def Set<Usuario> findNoAmigosDe(Long userId)
 }

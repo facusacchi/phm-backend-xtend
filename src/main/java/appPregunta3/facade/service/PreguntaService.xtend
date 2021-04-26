@@ -72,17 +72,10 @@ class PreguntaService extends TemplateService {
 	
 	def filtrarPorActivasYNoRespondidas(Boolean activas, Usuario user) {
 		if(activas) {
-			preguntasActivas(preguntasNoRespondidasPor(user)).toSet
+			preguntasActivas(repoPregunta.findAllNoRespondidasPor(user.id)).toSet
 		} else {
-			preguntasNoRespondidasPor(user).toSet
+			repoPregunta.findAllNoRespondidasPor(user.id).toSet
 		}
-	}
-	
-	def preguntasNoRespondidasPor(Usuario user) {
-		val filtradas = repoPregunta.findAll.filter[ pregunta | !user.preguntasRespondidas
-			.contains(pregunta.descripcion.toLowerCase)
-		].toList
-		filtradas
 	}
 	
 	def preguntasActivas(List<Pregunta> preguntas) {

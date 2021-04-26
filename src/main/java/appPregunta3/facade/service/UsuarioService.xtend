@@ -51,10 +51,9 @@ class UsuarioService extends TemplateService {
 		usuario
 	}
 	
-	def buscarUsuariosNoAmigos(Long idUser) {
-		idUser.validarId
-		val usuarioLogueado = buscarUsuario(idUser)
-		val usuariosNoAmigos = buscarUsuariosNoAmigosDe(usuarioLogueado)
+	def buscarUsuariosNoAmigos(Long idUsuarioLogueado) {
+		idUsuarioLogueado.validarId
+		val usuariosNoAmigos = repoUsuario.findNoAmigosDe(idUsuarioLogueado)
 		usuariosNoAmigos
 	}
 	
@@ -86,13 +85,6 @@ class UsuarioService extends TemplateService {
 	def validarAntesDeActualizar(Long idUser, Usuario user) {
 		idUser.validarId
 		user.validarCamposVacios		
-	}
-	
-	def buscarUsuariosNoAmigosDe(Usuario usuarioLogueado) {
-		val usuariosNoAmigos = repoUsuario.findAll.filter[usuario |
-			!usuarioLogueado.esAmigo(usuario) && usuarioLogueado.id != usuario.id
-		].toSet
-		usuariosNoAmigos
 	}
 	
 	def validarAntesDeAgregarAmigo(Long idUser, Long nuevoAmigoId) {

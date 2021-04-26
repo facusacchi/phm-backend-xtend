@@ -10,12 +10,13 @@ import appPregunta3.serializer.View
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.GenerationType
 
 @Entity
 @Accessors
 class Respuesta {
 	
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.TABLE)
 	Long id
 	
 	@JsonIgnore

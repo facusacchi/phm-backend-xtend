@@ -64,11 +64,19 @@ class PreguntaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Busco pregunta por id inexistente, lanza una 404")
+	@DisplayName("Busco pregunta por id inexistente, lanza status 404")
 	def void getPreguntaPorIdInexistente() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/pregunta/{id}","9999"))
 		.andExpect(status().isNotFound())
+	}
+	
+	@Test
+	@DisplayName("Busco pregunta con id null, lanza status 400")
+	def void getPreguntaPorIdNull() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/pregunta/{id}", "null"))
+		.andExpect(status().isBadRequest())
 	}
 	
 	@Test

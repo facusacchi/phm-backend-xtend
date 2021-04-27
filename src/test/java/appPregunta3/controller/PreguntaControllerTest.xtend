@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@DisplayName("Dado un controller de usuarios")
+@DisplayName("Dado un controller de preguntas")
 class PreguntaControllerTest {
 	
 	@Autowired
@@ -23,7 +23,7 @@ class PreguntaControllerTest {
 	
 	@Test
 	@DisplayName("Buscar pregunta por valor de busqueda, no activa, no respondida por user")
-	def void getPreguntasPorStringNoActivasNoRespondidas() {
+	def void getPreguntasPorStringNoActivas() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/preguntas/{valorBusqueda}/{activas}/{idUser}", "Cual es la masa", "false", "1"))
 		.andExpect(status.isOk)
@@ -33,7 +33,7 @@ class PreguntaControllerTest {
 	
 	@Test
 	@DisplayName("Buscar pregunta por valor de busqueda, activa, no respondida por user")
-	def void getPreguntasPorStringActivasNoRespondidas() {
+	def void getPreguntasPorStringActivas() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/preguntas/{valorBusqueda}/{activas}/{idUser}", "mas lento", "true", "1"))
 		.andExpect(status.isOk)
@@ -41,4 +41,21 @@ class PreguntaControllerTest {
 		.andExpect(jsonPath("$.[0].descripcion").value("¿Que es mas lento que un piropo de tartamudo?"))
 	}
 	
+	@Test
+	@DisplayName("Busco pregunta por id inexistente, lanza una 404")
+	def void getPreguntaPorIdInexistente() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/pregunta/{id}","9999"))
+		.andExpect(status().isNotFound())
+	}
+	
+//	@Test
+//	@DisplayName("")
+//	def void getTodasLasPreguntasActivas() {
+//		mockMvc
+//		.perform(MockMvcRequestBuilders.get("/preguntasAll/{activas}/{idUser}", "true", "1"))
+//		.andExpect(status.isOk)
+//		.andExpect(content.contentType("application/json"))
+//		.andExpect(jsonPath("$[0].descripcion").value("¿Que es mas lento que un piropo de tartamudo?"))
+//	}
 }

@@ -41,6 +41,16 @@ class PreguntaControllerTest {
 		.andExpect(jsonPath("$.[0].descripcion").value("¿Que es mas lento que un piropo de tartamudo?"))
 	}
 	
+//	@Test
+//	@DisplayName("Busco pregunta por id")
+//	def void getPreguntaPorId() {
+//		mockMvc
+//		.perform(MockMvcRequestBuilders.get("/pregunta/{id}","16"))
+//		.andExpect(status.isOk)
+//		.andExpect(content.contentType("application/json"))
+//		.andExpect(jsonPath("$.descripcion").value("Hamlet es una obra de..."))
+//	}
+	
 	@Test
 	@DisplayName("Busco pregunta por id inexistente, lanza una 404")
 	def void getPreguntaPorIdInexistente() {
@@ -49,13 +59,13 @@ class PreguntaControllerTest {
 		.andExpect(status().isNotFound())
 	}
 	
-//	@Test
-//	@DisplayName("")
-//	def void getTodasLasPreguntasActivas() {
-//		mockMvc
-//		.perform(MockMvcRequestBuilders.get("/preguntasAll/{activas}/{idUser}", "true", "1"))
-//		.andExpect(status.isOk)
-//		.andExpect(content.contentType("application/json"))
-//		.andExpect(jsonPath("$[0].descripcion").value("¿Que es mas lento que un piropo de tartamudo?"))
-//	}
+	@Test
+	@DisplayName("Busco todas las preguntas activas")
+	def void getTodasLasPreguntasActivas() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/preguntasAll/{activas}/{idUser}", "true", "1"))
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.length()").value(3))
+	}
 }

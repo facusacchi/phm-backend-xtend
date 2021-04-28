@@ -9,7 +9,7 @@ import java.util.List
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionPregunta.*
-import static extension appPregunta3.validaciones.ValidacionId.*
+
 
 @Service
 class PreguntaService extends TemplateService {
@@ -17,7 +17,6 @@ class PreguntaService extends TemplateService {
 	RepoPregunta repoPregunta
 	
 	def getPreguntasPorString(String valorBusqueda, Boolean activas, Long idUser) {
-		idUser.validarId
 		if (activas === null){
 			throw new BadRequestException("Parámetros nulos en el path")
 		}
@@ -34,20 +33,17 @@ class PreguntaService extends TemplateService {
 	}
 	
 	def preguntaPorId(Long id) {
-		id.validarId
 		val pregunta = buscarPregunta(id)
 		pregunta
 	}
 	
 	def todasLasPreguntas(Boolean activas, Long idUser) {
-		idUser.validarId
 		val user = buscarUsuario(idUser)
 		val preguntas = filtrarPorActivasYNoRespondidas(activas, user)
 		preguntas
 	}
 	
 	def actualizarPregunta(Pregunta preguntaModificada, Long id) {
-		id.validarId
 		preguntaModificada.validarCamposVacios
 		val pregunta = buscarPregunta(id)
 		pregunta => [
@@ -60,7 +56,6 @@ class PreguntaService extends TemplateService {
 	}
 	
 	def crearPregunta(Pregunta bodyPregunta, Long idAutor) {
-		idAutor.validarId
 		val autor = buscarUsuario(idAutor)
 		bodyPregunta.validarCamposVacios
 		if(bodyPregunta instanceof Solidaria) {

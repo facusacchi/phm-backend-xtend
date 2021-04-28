@@ -7,7 +7,6 @@ import appPregunta3.facade.service.TemplateService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionUsuario.*
-import static extension appPregunta3.validaciones.ValidacionId.*
 import static extension appPregunta3.validaciones.ValidacionRespuesta.*
 import appPregunta3.exceptions.NotFoundException
 
@@ -28,7 +27,7 @@ class UsuarioService extends TemplateService {
 	}
 	
 	def responder(Long idUser, Long idPregunta, Respuesta respuesta) {
-		validarAntesDeResponder(idUser, idPregunta, respuesta)
+		validarAntesDeResponder(respuesta)
 		val pregunta = buscarPregunta(idPregunta)
 		val usuario = buscarUsuario(idUser)
 		usuario.responder(pregunta, respuesta)
@@ -38,7 +37,6 @@ class UsuarioService extends TemplateService {
 	}
 	
 	def buscarUsuarioPorId(Long idUser) {
-		idUser.validarId
 		val usuario = buscarUsuario(idUser)
 		usuario
 	}	
@@ -57,7 +55,6 @@ class UsuarioService extends TemplateService {
 	}
 	
 	def agregarAmigo(Long idUser, Long nuevoAmigoId) {
-		validarAntesDeAgregarAmigo(idUser, nuevoAmigoId)
 		val nuevoAmigo = buscarUsuario(nuevoAmigoId)
 		val usuarioLogueado = buscarUsuario(idUser)
 		validarCamposDeUsuarios(nuevoAmigo, usuarioLogueado)
@@ -68,9 +65,7 @@ class UsuarioService extends TemplateService {
 
 //################################################################################################
 	
-	def validarAntesDeResponder(Long idUser, Long idPregunta, Respuesta respuesta) {
-		idUser.validarId
-		idPregunta.validarId
+	def validarAntesDeResponder(Respuesta respuesta) {
 		respuesta.validarRecursoNulo
 		respuesta.validarCamposVacios
 	}
@@ -82,14 +77,9 @@ class UsuarioService extends TemplateService {
 	}
 	
 	def validarAntesDeActualizar(Long idUser, Usuario user) {
-		idUser.validarId
 		user.validarCamposVacios		
 	}
 	
-	def validarAntesDeAgregarAmigo(Long idUser, Long nuevoAmigoId) {
-		idUser.validarId
-		nuevoAmigoId.validarId		
-	}
 	
 	def validarCamposDeUsuarios(Usuario nuevoAmigo, Usuario usuarioLogueado) {
 		nuevoAmigo.validarCamposVacios

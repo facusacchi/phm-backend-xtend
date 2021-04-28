@@ -85,7 +85,7 @@ abstract class Pregunta {
 	
 	@JsonView(View.Pregunta.Table)
 	def estaActiva() {
-		fechaHoraCreacion.plusMinutes(60).isAfter(LocalDateTime.now())
+		fechaHoraCreacion.plusMinutes(5).isAfter(LocalDateTime.now())
 	}
 	
 	def cumpleCondicionDeBusqueda(String valorBusqueda) {

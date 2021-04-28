@@ -22,6 +22,7 @@ import javax.persistence.OneToMany
 import org.eclipse.xtend.lib.annotations.Accessors
 import appPregunta3.serializer.View
 import javax.persistence.GenerationType
+import javax.persistence.OrderColumn
 
 @Entity
 @Accessors
@@ -60,6 +61,7 @@ class Usuario {
 	
 	@JsonView(View.Usuario.Perfil)
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OrderColumn
 	List<Respuesta> respuestas = new ArrayList<Respuesta>
 	static String DATE_PATTERN = "yyyy-MM-dd"
 

@@ -44,6 +44,18 @@ class UsuarioControllerTest {
 		.andExpect(jsonPath("$.userName").value('pepito'))	
 	}
 	
+	@Test
+	@DisplayName("usuario no ingresa su userName y devuelve un 400")
+	def void loguearUsuarioSinUserName(){
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/login")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"password":"123"}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
 //	@JsonView(View.Usuario.Perfil)
 //	@PutMapping(value="/perfilDeUsuario/{idUser}/pregunta/{idPregunta}")
 //	def responder(@PathVariable Long idUser, @PathVariable Long idPregunta, @RequestBody Respuesta respuesta) {

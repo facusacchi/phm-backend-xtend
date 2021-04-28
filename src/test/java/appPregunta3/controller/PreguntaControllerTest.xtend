@@ -91,27 +91,27 @@ class PreguntaControllerTest {
 		.andExpect(jsonPath("$.length()").value(3))
 	}
 	
-	@Test
-	@DisplayName("Creo una nueva pregunta satisfactoriamente")
-	@Transactional
-	def void creoPreguntaSatisfactoriaente() {
-		mockMvc
-		.perform(
-			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content({
-    						'"descripcion": "nueva",
-    						 "respuestaCorrecta": "correcta",
-    						 "opciones": [
-            								"correcta",
-				            				"opcion1",
-            								"opcion2"
-    									],
-    						 "type": "simple"'
-						})
-		)
-		.andExpect(status.isOk)
-		.andExpect(content.contentType("application/json"))
-		.andExpect(jsonPath("$.descripcion").value("nueva"))
-	}
+//	@Test
+//	@DisplayName("Creo una nueva pregunta satisfactoriamente")
+//	@Transactional
+//	def void creoPreguntaSatisfactoriaente() {
+//		mockMvc
+//		.perform(
+//			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.content({
+//    						'"descripcion": "nueva",
+//    						 "respuestaCorrecta": "correcta",
+//    						 "opciones": [
+//            								"correcta",
+//				            				"opcion1",
+//            								"opcion2"
+//    									],
+//    						 "type": "simple"'
+//						})
+//		)
+//		.andExpect(status.isOk)
+//		.andExpect(content.contentType("application/json"))
+//		.andExpect(jsonPath("$.descripcion").value("nueva"))
+//	}
 }

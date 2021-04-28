@@ -83,7 +83,7 @@ class UsuarioControllerTest {
 //		ResponseEntity.ok(usuario)
 //	}
 
-@Test
+    @Test
 	@DisplayName("se puede actualizar un usuario por id con un body válido")
 	@Transactional
 	def void actualizarUsuario() {
@@ -98,6 +98,19 @@ class UsuarioControllerTest {
 		.andExpect(jsonPath("$.nombre").value('petete'))
 		.andExpect(jsonPath("$.apellido").value('pal'))
 		.andExpect(jsonPath("$.fechaDeNacimiento").value('1995-05-13'))
+	}
+	
+	@Test
+	@DisplayName("no se puede actualizar un usuario por id inexistente")
+	@Transactional
+	def void actualizarUsuarioInvalido() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUser}","1083")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"nombre": "petete", "apellido": "pal","fechaDeNacimiento": "1995-05-13"}')
+		)
+		.andExpect(status.notFound)
 	}
 
 

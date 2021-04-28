@@ -89,7 +89,7 @@ class UsuarioControllerTest {
 	def void actualizarUsuario() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUser}","1")
+			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUsuario}","1")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"nombre": "petete", "apellido": "pal","fechaDeNacimiento": "1995-05-13"}')
 		)
@@ -102,15 +102,26 @@ class UsuarioControllerTest {
 	
 	@Test
 	@DisplayName("no se puede actualizar un usuario por id inexistente")
-	@Transactional
-	def void actualizarUsuarioInvalido() {
+	def void actualizarUsuarioInexistente() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUser}","1083")
+			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUsuario}","1083")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"nombre": "petete", "apellido": "pal","fechaDeNacimiento": "1995-05-13"}')
 		)
 		.andExpect(status.notFound)
+	}
+	
+	@Test
+	@DisplayName("no se puede actualizar un usuario con campos nulos")
+	def void actualizarUsuarioConCamposNulos() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUsuario}","1083")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"nombre": "petete", "apellido": "pal"}')
+		)
+		.andExpect(status.badRequest)
 	}
 
 

@@ -56,6 +56,18 @@ class UsuarioControllerTest {
 		.andExpect(status.badRequest)
 	}
 	
+	@Test
+	@DisplayName("login de usuario devuelve Not Found")
+	def void loguearUsuarioNoEncontrado(){
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/login")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"userName":"pepita","password":"456"}')
+		)
+		.andExpect(status.notFound)
+	}
+	
 //	@JsonView(View.Usuario.Perfil)
 //	@PutMapping(value="/perfilDeUsuario/{idUser}/pregunta/{idPregunta}")
 //	def responder(@PathVariable Long idUser, @PathVariable Long idPregunta, @RequestBody Respuesta respuesta) {

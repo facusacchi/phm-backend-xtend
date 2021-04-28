@@ -52,7 +52,6 @@ class UsuarioService extends TemplateService {
 	}
 	
 	def buscarUsuariosNoAmigos(Long idUsuarioLogueado) {
-		idUsuarioLogueado.validarId
 		val usuariosNoAmigos = repoUsuario.findNoAmigosDe(idUsuarioLogueado)
 		usuariosNoAmigos
 	}

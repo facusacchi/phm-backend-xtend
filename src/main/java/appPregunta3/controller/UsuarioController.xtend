@@ -51,9 +51,9 @@ class UsuarioController {
 	}
 
 	@JsonView(View.Usuario.TablaNoAmigos)
-	@GetMapping(value="/usuarios/noAmigos/{idUser}")
-	def buscarUsuariosNoAmigos(@PathVariable Long idUser) {
-		val usuariosNoAmigos = usuarioService.buscarUsuariosNoAmigos(idUser)
+	@GetMapping("/usuarios/noAmigos/{idUsuario}")
+	def buscarUsuariosNoAmigos(@PathVariable Long idUsuario) {
+		val usuariosNoAmigos = usuarioService.buscarUsuariosNoAmigos(idUsuario)
 		ResponseEntity.ok(usuariosNoAmigos)
 	}
 

@@ -20,6 +20,7 @@ import org.springframework.http.MediaType
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -81,6 +82,25 @@ class UsuarioControllerTest {
 //		val usuario = usuarioService.buscarUsuarioPorId(idUser)
 //		ResponseEntity.ok(usuario)
 //	}
+
+@Test
+	@DisplayName("se puede actualizar un usuario por id con un body válido")
+	@Transactional
+	def void actualizarUsuario() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUser}","1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"nombre": "petete", "apellido": "pal","fechaDeNacimiento": "1995-05-13"}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.nombre").value('petete'))
+		.andExpect(jsonPath("$.apellido").value('pal'))
+		.andExpect(jsonPath("$.fechaDeNacimiento").value('1995-05-13'))
+	}
+
+
 //
 //	@JsonView(View.Usuario.Perfil)
 //	@PutMapping(value="/perfilDeUsuario/{idUser}")

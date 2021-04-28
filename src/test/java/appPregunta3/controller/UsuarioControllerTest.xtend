@@ -75,6 +75,16 @@ class UsuarioControllerTest {
 //		val esCorrecta = usuarioService.responder(idUser, idPregunta, respuesta)
 //		ResponseEntity.ok(esCorrecta)
 //	}
+    @Test
+	@DisplayName("se puede obtener un usuario por el id")
+	def void buscarUsuarioPorId() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/perfilDeUsuario/{idUser}", "1"))
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.id").value("1"))
+		.andExpect(jsonPath("$.nombre").value("Pepe"))
+	}
 //
 //	@JsonView(View.Usuario.Perfil)
 //	@GetMapping("/perfilDeUsuario/{idUser}")
@@ -124,13 +134,19 @@ class UsuarioControllerTest {
 		.andExpect(status.badRequest)
 	}
 
-
-//
-//	@JsonView(View.Usuario.Perfil)
-//	@PutMapping(value="/perfilDeUsuario/{idUser}")
-//	def actualizarUsuario(@RequestBody Usuario usuarioBody, @PathVariable Long idUser) {
-//		val usuario = usuarioService.actualizarUsuario(idUser, usuarioBody)
-//		ResponseEntity.ok.body(usuario)
+//    @Test
+//	@DisplayName("se puede agregar amigos a un usuario")
+//	@Transactional
+//	def void agregarAmigo() {
+//		mockMvc
+//		.perform(
+//			MockMvcRequestBuilders.put("/usuarios/{idUsuario}/agregarAmigo/{nuevoAmigoId}", "1")
+//			.contentType(MediaType.APPLICATION_JSON)
+//			.content('{"nuevo": 10}')
+//		)
+//		.andExpect(status.isOk)
+//		.andExpect(content.contentType("application/json"))
+//		.andExpect(jsonPath("$.gustos.nuevo").value(10))
 //	}
 //
 //	@JsonView(View.Usuario.TablaNoAmigos)

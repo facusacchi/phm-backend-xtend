@@ -134,32 +134,24 @@ class UsuarioControllerTest {
 		.andExpect(status.badRequest)
 	}
 
-//    @Test
-//	@DisplayName("se puede agregar amigos a un usuario")
-//	@Transactional
-//	def void agregarAmigo() {
-//		mockMvc
-//		.perform(
-//			MockMvcRequestBuilders.put("/usuarios/{idUsuario}/agregarAmigo/{nuevoAmigoId}", "1")
-//			.contentType(MediaType.APPLICATION_JSON)
-//			.content('{"nuevo": 10}')
-//		)
-//		.andExpect(status.isOk)
-//		.andExpect(content.contentType("application/json"))
-//		.andExpect(jsonPath("$.gustos.nuevo").value(10))
-//	}
-//
+    @Test
+	@DisplayName("se puede agregar amigos a un usuario")
+	@Transactional
+	def void agregarAmigo() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.put("/usuarios/{idUsuario}/agregarAmigo/{nuevoAmigoId}","1","6")
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("usuario.id").value(1))
+	}
+
 //	@JsonView(View.Usuario.TablaNoAmigos)
 //	@GetMapping(value="/usuarios/noAmigos/{idUser}")
 //	def buscarUsuariosNoAmigos(@PathVariable Long idUser) {
 //		val usuariosNoAmigos = usuarioService.buscarUsuariosNoAmigos(idUser)
 //		ResponseEntity.ok(usuariosNoAmigos)
 //	}
-//
-//	@JsonView(View.Usuario.Perfil)
-//	@PutMapping(value="/usuarios/{idUser}/agregarAmigo/{nuevoAmigoId}")
-//	def agregarAmigo(@PathVariable Long idUser, @PathVariable Long nuevoAmigoId) {
-//		val usuario = usuarioService.agregarAmigo(idUser, nuevoAmigoId)
-//		ResponseEntity.ok.body(usuario)
-//	}
+
 }

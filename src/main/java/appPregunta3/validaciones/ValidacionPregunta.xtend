@@ -8,8 +8,8 @@ import appPregunta3.exceptions.BusinessException
 class ValidacionPregunta {
 	
 	static def validarCamposVacios(Pregunta pregunta) {		
-		if(pregunta.descripcion === null || pregunta.respuestaCorrecta === null) {
-			throw new BadRequestException("Campos de pregunta nulos. Requeridos: descripcion, respuestaCorrecta")
+		if(pregunta.descripcion === null || pregunta.descripcion == "" || pregunta.respuestaCorrecta === null  || pregunta.respuestaCorrecta == "") {
+			throw new BadRequestException("Campos de pregunta nulos o vacíos. Requeridos: descripcion, respuestaCorrecta")
 		}
 		if(pregunta.opciones.isEmpty) {
 			throw new BadRequestException("Faltan las opciones en la pregunta")

@@ -111,6 +111,22 @@ class PreguntaControllerTest {
 	}
 	
 	@Test
+	@DisplayName("Intentar actualizar una pregunta con opción correcta vacía, devuelve 400")
+	def void actualizarPreguntaOpcionCorrectaVaciaError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.put("/pregunta/{id}", preguntaId)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{	"id":' + preguntaId + ',
+						"respuestaCorrecta":"",
+						"descripcion":"¿Por que sibarita es tan fea?",
+						"opciones":["Por la salsa","Por la muzza","No hay motivo","Por la masa","Es existencial"],
+						"type":"simple"}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
 	@DisplayName("Crear una nueva pregunta satisfactoriamente")
 	@Transactional
 	def void creoPreguntaSatisfactoriaente() {
@@ -132,5 +148,55 @@ class PreguntaControllerTest {
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("text/plain;charset=UTF-8"))
 		.andExpect(content.string("Pregunta creada correctamente"))
+	}
+	
+	@Test
+	@DisplayName("Intentar crear una pregunta con descripción vacía, devuelve 400")
+	def void crearPreguntaDescripcionVaciaError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{
+    						"descripcion": "",
+    						 "respuestaCorrecta": "correcta",
+    						 "opciones": [
+            								"correcta",
+				            				"opcion1",
+            								"opcion2"
+    									],
+    						 "type": "simple"
+						}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
+	@DisplayName("Intentar crear una pregunta sin opciones, devuelve 400")
+	def void crearPreguntaSinOpcionesError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{
+    						"descripcion": "sin opciones",
+    						 "respuestaCorrecta": "correcta",
+    						 "opciones": [],
+    						 "type": "simple"
+						}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
+	@DisplayName("Intentar crear una pregunta con body inválido, devuelve 400")
+	def void crearPreguntaInvalidaError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{}')
+		)
+		.andExpect(status.badRequest)
 	}
 }

@@ -46,6 +46,10 @@ class PreguntaService extends TemplateService {
 	def actualizarPregunta(Pregunta preguntaModificada, Long id) {
 		preguntaModificada.validarCamposVacios
 		val pregunta = buscarPregunta(id)
+		val autor = buscarUsuario(pregunta.autor.id)
+		if(preguntaModificada instanceof Solidaria) {
+			validarPuntajeAsignado(preguntaModificada, autor)
+		}
 		pregunta => [
 			descripcion = preguntaModificada.descripcion
 			opciones = preguntaModificada.opciones

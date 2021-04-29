@@ -122,14 +122,15 @@ class UsuarioControllerTest {
 		.perform(MockMvcRequestBuilders.get("/perfilDeUsuario/{idUser}", "1456"))
 		.andExpect(status.notFound)
 	}
-//
-//	@JsonView(View.Usuario.Perfil)
-//	@GetMapping("/perfilDeUsuario/{idUser}")
-//	def buscarUsuarioPorId(@PathVariable Long idUser) {
-//		val usuario = usuarioService.buscarUsuarioPorId(idUser)
-//		ResponseEntity.ok(usuario)
-//	}
 
+	@Test
+	@DisplayName("al buscar un usuario por id incorrecto devuelve 400")
+	def void buscarUsuarioPorIdIncorrecto() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/perfilDeUsuario/{idUser}", "idInvalido"))
+		.andExpect(status.badRequest)
+	}
+	
     @Test
 	@DisplayName("se puede actualizar un usuario por id con un body válido")
 	@Transactional
@@ -184,11 +185,14 @@ class UsuarioControllerTest {
 		.andExpect(jsonPath("$.id").value(1))
 	}
 
-//	@JsonView(View.Usuario.TablaNoAmigos)
-//	@GetMapping(value="/usuarios/noAmigos/{idUser}")
-//	def buscarUsuariosNoAmigos(@PathVariable Long idUser) {
-//		val usuariosNoAmigos = usuarioService.buscarUsuariosNoAmigos(idUser)
-//		ResponseEntity.ok(usuariosNoAmigos)
-//	}
+	@Test
+	@DisplayName("buscar todos los no amigos de un usuario")
+	def void buscarNoAmigos() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/usuarios/noAmigos/{idUser}", "1"))
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.length()").value(6))
+	}
 
 }

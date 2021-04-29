@@ -56,7 +56,7 @@ class PreguntaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Busco pregunta por id")
+	@DisplayName("Buscar pregunta por id")
 	def void getPreguntaPorId() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/pregunta/{id}", preguntaId))
@@ -66,7 +66,7 @@ class PreguntaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Busco pregunta por id inexistente, lanza status 404")
+	@DisplayName("Buscar pregunta por id inexistente, lanza status 404")
 	def void getPreguntaPorIdInexistente() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/pregunta/{id}","9999"))
@@ -74,7 +74,7 @@ class PreguntaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Busco pregunta con id null, lanza status 400")
+	@DisplayName("Buscar pregunta con id null, lanza status 400")
 	def void getPreguntaPorIdNull() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/pregunta/{id}", "null"))
@@ -82,7 +82,7 @@ class PreguntaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Busco todas las preguntas activas")
+	@DisplayName("Buscar todas las preguntas activas")
 	def void getTodasLasPreguntasActivas() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/preguntasAll/{activas}/{idUser}", "true", "1"))
@@ -91,27 +91,46 @@ class PreguntaControllerTest {
 		.andExpect(jsonPath("$.length()").value(3))
 	}
 	
-//	@Test
-//	@DisplayName("Creo una nueva pregunta satisfactoriamente")
-//	@Transactional
-//	def void creoPreguntaSatisfactoriaente() {
-//		mockMvc
-//		.perform(
-//			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content({
-//    						'"descripcion": "nueva",
-//    						 "respuestaCorrecta": "correcta",
-//    						 "opciones": [
-//            								"correcta",
-//				            				"opcion1",
-//            								"opcion2"
-//    									],
-//    						 "type": "simple"'
-//						})
-//		)
-//		.andExpect(status.isOk)
-//		.andExpect(content.contentType("application/json"))
-//		.andExpect(jsonPath("$.descripcion").value("nueva"))
-//	}
+	@Test
+	@DisplayName("Actualizar una pregunta")
+	@Transactional
+	def void actualizarPregunta() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.put("/pregunta/{id}", preguntaId)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{	"id":' + preguntaId + ',
+						"respuestaCorrecta":"Es existencial",
+						"descripcion":"¿Por que sibarita es tan fea?",
+						"opciones":["Por la salsa","Por la muzza","No hay motivo","Por la masa","Es existencial"],
+						"type":"simple"}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("text/plain;charset=UTF-8"))
+		.andExpect(content.string("Pregunta actualizada correctamente"))		
+	}
+	
+	@Test
+	@DisplayName("Crear una nueva pregunta satisfactoriamente")
+	@Transactional
+	def void creoPreguntaSatisfactoriaente() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content('{
+    						"descripcion": "nueva",
+    						 "respuestaCorrecta": "correcta",
+    						 "opciones": [
+            								"correcta",
+				            				"opcion1",
+            								"opcion2"
+    									],
+    						 "type": "simple"
+						}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("text/plain;charset=UTF-8"))
+		.andExpect(content.string("Pregunta creada correctamente"))
+	}
 }

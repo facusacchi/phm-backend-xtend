@@ -1,13 +1,6 @@
 package appPregunta3.controller
 
-import appPregunta3.dominio.Respuesta	
-import appPregunta3.dominio.Usuario
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.test.context.ActiveProfiles
@@ -16,11 +9,13 @@ import org.springframework.test.web.servlet.MockMvc
 import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.http.MediaType
+import javax.transaction.Transactional
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.transaction.annotation.Transactional
+import appPregunta3.dao.RepoPregunta
+import org.junit.jupiter.api.BeforeEach
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,6 +25,16 @@ class UsuarioControllerTest {
 
 	@Autowired
 	MockMvc mockMvc
+	
+	@Autowired
+	RepoPregunta repoPregunta
+	
+	Long preguntaId
+	
+	@BeforeEach()
+	def void init() {
+		preguntaId = repoPregunta.findAll.head.id
+	}
 
 	@Test
 	@DisplayName("hacer sign in de un usuario")
@@ -69,12 +74,36 @@ class UsuarioControllerTest {
 		.andExpect(status.notFound)
 	}
 	
-//	@JsonView(View.Usuario.Perfil)
-//	@PutMapping(value="/perfilDeUsuario/{idUser}/pregunta/{idPregunta}")
-//	def responder(@PathVariable Long idUser, @PathVariable Long idPregunta, @RequestBody Respuesta respuesta) {
-//		val esCorrecta = usuarioService.responder(idUser, idPregunta, respuesta)
-//		ResponseEntity.ok(esCorrecta)
-//	}
+	@Test
+	@DisplayName("responder una pregunta correctamente")
+	@Transactional
+	def void responderCorrectamente() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUser}/pregunta/{idPregunta}", "1", preguntaId)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"opcionElegida":"Es existencial","pregunta":"¿Por que sibarita es tan rica?"}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(content.string("true"))		
+	}
+	
+	@Test
+	@DisplayName("responder una pregunta incorrectamente")
+	@Transactional
+	def void responderIncorrectamente() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUser}/pregunta/{idPregunta}", "1", preguntaId)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"opcionElegida":"Por la masa","pregunta":"¿Por que sibarita es tan rica?"}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(content.string("false"))		
+	}
+	
     @Test
 	@DisplayName("se puede obtener un usuario por el id")
 	def void buscarUsuarioPorId() {

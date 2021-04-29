@@ -85,6 +85,14 @@ class UsuarioControllerTest {
 		.andExpect(jsonPath("$.id").value("1"))
 		.andExpect(jsonPath("$.nombre").value("Pepe"))
 	}
+	
+	@Test
+	@DisplayName("No se puede obtener un usuario por el id Inexistente, not found")
+	def void buscarUsuarioPorIdNoEncontrado() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/perfilDeUsuario/{idUser}", "1456"))
+		.andExpect(status.notFound)
+	}
 //
 //	@JsonView(View.Usuario.Perfil)
 //	@GetMapping("/perfilDeUsuario/{idUser}")
@@ -144,7 +152,7 @@ class UsuarioControllerTest {
 		)
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
-		.andExpect(jsonPath("usuario.id").value(1))
+		.andExpect(jsonPath("$.id").value(1))
 	}
 
 //	@JsonView(View.Usuario.TablaNoAmigos)

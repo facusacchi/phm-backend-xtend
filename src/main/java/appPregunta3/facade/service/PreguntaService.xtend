@@ -1,10 +1,9 @@
 package appPregunta3.facade.service
 
-import appPregunta3.dao.RepoPregunta
+import appPregunta3.dao.RepoPregunta	
 import appPregunta3.dominio.Pregunta
 import appPregunta3.dominio.Solidaria
 import appPregunta3.dominio.Usuario
-import appPregunta3.exceptions.BadRequestException
 import java.util.List
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -16,20 +15,23 @@ class PreguntaService extends TemplateService {
 	@Autowired
 	RepoPregunta repoPregunta
 	
-	def getPreguntasPorString(String valorBusqueda, Boolean activas, Long idUser) {
-		if (activas === null){
-			throw new BadRequestException("Parámetros nulos en el path")
-		}
+	def getPreguntasActivasPorString(String valorBusqueda, Long idUser) {
 		val user = buscarUsuario(idUser)
 		val preguntas = this.repoPregunta.findByDescripcionContainsIgnoreCase(valorBusqueda).toList
 		val preguntasNoRespondidas = preguntas.filter[ pregunta | !user.preguntasRespondidas
 			.contains(pregunta.descripcion.toLowerCase)
 		].toList
-		if (activas){
-			val preguntasActivas = preguntasActivas(preguntasNoRespondidas)
-			return preguntasActivas
-		}	
-		preguntas
+		val preguntasActivasNoRespondidas = preguntasActivas(preguntasNoRespondidas)
+		preguntasActivasNoRespondidas
+	}
+	
+	def getPreguntasAllPorString(String valorBusqueda, Long idUser) {
+		val user = buscarUsuario(idUser)
+		val preguntas = this.repoPregunta.findByDescripcionContainsIgnoreCase(valorBusqueda).toList
+		val preguntasNoRespondidas = preguntas.filter[ pregunta | !user.preguntasRespondidas
+			.contains(pregunta.descripcion.toLowerCase)
+		].toList
+		preguntasNoRespondidas
 	}
 	
 	def preguntaPorId(Long id) {
@@ -37,11 +39,18 @@ class PreguntaService extends TemplateService {
 		pregunta
 	}
 	
-	def todasLasPreguntas(Boolean activas, Long idUser) {
+	def todasLasPreguntasActivas(Long idUser) {
 		val user = buscarUsuario(idUser)
-		val preguntas = filtrarPorActivasYNoRespondidas(activas, user)
+		val preguntas = filtrarPorActivasYNoRespondidas(user)
 		preguntas
 	}
+	
+	def todasLasPreguntas(Long idUser) {
+		val user = buscarUsuario(idUser)
+		val preguntas = repoPregunta.findAllNoRespondidasPor(user.id).toSet
+		preguntas
+	}
+	
 	
 	def actualizarPregunta(Pregunta preguntaModificada, Long id) {
 		preguntaModificada.validarCamposVacios
@@ -69,12 +78,8 @@ class PreguntaService extends TemplateService {
 		repoPregunta.save(bodyPregunta)
 	}
 	
-	def filtrarPorActivasYNoRespondidas(Boolean activas, Usuario user) {
-		if(activas) {
-			preguntasActivas(repoPregunta.findAllNoRespondidasPor(user.id)).toSet
-		} else {
-			repoPregunta.findAllNoRespondidasPor(user.id).toSet
-		}
+	def filtrarPorActivasYNoRespondidas(Usuario user) {
+		return preguntasActivas(repoPregunta.findAllNoRespondidasPor(user.id)).toSet
 	}
 	
 	def preguntasActivas(List<Pregunta> preguntas) {

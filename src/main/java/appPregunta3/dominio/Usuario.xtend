@@ -23,12 +23,18 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import appPregunta3.serializer.View
 import javax.persistence.GenerationType
 import javax.persistence.OrderColumn
+import javax.persistence.TableGenerator
 
 @Entity
 @Accessors
 class Usuario {
 	
-	@Id @GeneratedValue(strategy = GenerationType.TABLE)
+	
+	@Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "usuario-generator")
+	@TableGenerator(name = "usuario-generator",
+      table = "dep_ids",
+      pkColumnName = "seq_id",
+      valueColumnName = "seq_value")
 	@JsonView(View.Usuario.Login, View.Usuario.Perfil, View.Usuario.TablaNoAmigos)
 	Long id
 	

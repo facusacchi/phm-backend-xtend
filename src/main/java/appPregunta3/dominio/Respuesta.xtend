@@ -11,12 +11,17 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.GenerationType
+import javax.persistence.TableGenerator
 
 @Entity
 @Accessors
 class Respuesta {
 	
-	@Id @GeneratedValue(strategy = GenerationType.TABLE)
+	@Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "respuesta-generator")
+	@TableGenerator(name = "respuesta-generator",
+      table = "dep_ids",
+      pkColumnName = "seq_id",
+      valueColumnName = "seq_value")
 	Long id
 	
 	@JsonIgnore

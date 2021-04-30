@@ -26,6 +26,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import appPregunta3.serializer.View
 import appPregunta3.dominio.Respuesta
 import javax.persistence.GenerationType
+import javax.persistence.TableGenerator
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,7 +42,11 @@ import javax.persistence.GenerationType
 @Accessors
 abstract class Pregunta {
 	
-	@Id @GeneratedValue(strategy = GenerationType.TABLE)
+	@Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "pregunta-generator")
+	@TableGenerator(name = "pregunta-generator",
+      table = "dep_ids",
+      pkColumnName = "seq_id",
+      valueColumnName = "seq_value")
 	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
 	Long id
 	

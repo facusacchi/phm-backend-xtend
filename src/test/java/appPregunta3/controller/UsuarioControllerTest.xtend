@@ -41,7 +41,7 @@ class UsuarioControllerTest {
 	def void loguearUsuario(){
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.post("/login")
+			MockMvcRequestBuilders.post("/usuario/login")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"userName":"pepito","password":"123"}')
 		)
@@ -55,7 +55,7 @@ class UsuarioControllerTest {
 	def void loguearUsuarioSinUserName(){
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.post("/login")
+			MockMvcRequestBuilders.post("/usuario/login")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"password":"123"}')
 		)
@@ -67,7 +67,7 @@ class UsuarioControllerTest {
 	def void loguearUsuarioNoEncontrado(){
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.post("/login")
+			MockMvcRequestBuilders.post("/usuario/login")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"userName":"pepita","password":"456"}')
 		)
@@ -80,7 +80,7 @@ class UsuarioControllerTest {
 	def void responderCorrectamente() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUser}/pregunta/{idPregunta}", "1", preguntaId)
+			MockMvcRequestBuilders.put("/usuario/{idUser}/pregunta/{idPregunta}", "1", preguntaId)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"opcionElegida":"Es existencial","pregunta":"¿Por que sibarita es tan rica?"}')
 		)
@@ -95,7 +95,7 @@ class UsuarioControllerTest {
 	def void responderIncorrectamente() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUser}/pregunta/{idPregunta}", "1", preguntaId)
+			MockMvcRequestBuilders.put("/usuario/{idUser}/pregunta/{idPregunta}", "1", preguntaId)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"opcionElegida":"Por la masa","pregunta":"¿Por que sibarita es tan rica?"}')
 		)
@@ -108,7 +108,7 @@ class UsuarioControllerTest {
 	@DisplayName("se puede obtener un usuario por el id")
 	def void buscarUsuarioPorId() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/perfilDeUsuario/{idUser}", "1"))
+		.perform(MockMvcRequestBuilders.get("/usuario/{idUser}", "1"))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.id").value("1"))
@@ -119,7 +119,7 @@ class UsuarioControllerTest {
 	@DisplayName("No se puede obtener un usuario por el id Inexistente, not found")
 	def void buscarUsuarioPorIdNoEncontrado() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/perfilDeUsuario/{idUser}", "1456"))
+		.perform(MockMvcRequestBuilders.get("/usuario/{idUser}", "1456"))
 		.andExpect(status.notFound)
 	}
 
@@ -127,7 +127,7 @@ class UsuarioControllerTest {
 	@DisplayName("al buscar un usuario por id incorrecto devuelve 400")
 	def void buscarUsuarioPorIdIncorrecto() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/perfilDeUsuario/{idUser}", "idInvalido"))
+		.perform(MockMvcRequestBuilders.get("/usuario/{idUser}", "idInvalido"))
 		.andExpect(status.badRequest)
 	}
 	
@@ -137,7 +137,7 @@ class UsuarioControllerTest {
 	def void actualizarUsuario() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUsuario}","1")
+			MockMvcRequestBuilders.put("/usuario/{idUsuario}","1")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"nombre": "petete", "apellido": "pal","fechaDeNacimiento": "1995-05-13"}')
 		)
@@ -153,7 +153,7 @@ class UsuarioControllerTest {
 	def void actualizarUsuarioInexistente() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUsuario}","1083")
+			MockMvcRequestBuilders.put("/usuario/{idUsuario}","1083")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"nombre": "petete", "apellido": "pal","fechaDeNacimiento": "1995-05-13"}')
 		)
@@ -165,7 +165,7 @@ class UsuarioControllerTest {
 	def void actualizarUsuarioConCamposNulos() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/perfilDeUsuario/{idUsuario}","1083")
+			MockMvcRequestBuilders.put("/usuario/{idUsuario}","1083")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"nombre": "petete", "apellido": "pal"}')
 		)
@@ -178,7 +178,7 @@ class UsuarioControllerTest {
 	def void agregarAmigo() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/usuarios/{idUsuario}/agregarAmigo/{nuevoAmigoId}","1","6")
+			MockMvcRequestBuilders.put("/usuario/{idUsuario}/agregarAmigo/{nuevoAmigoId}","1","6")
 		)
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
@@ -189,7 +189,7 @@ class UsuarioControllerTest {
 	@DisplayName("buscar todos los no amigos de un usuario")
 	def void buscarNoAmigos() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/usuarios/noAmigos/{idUser}", "1"))
+		.perform(MockMvcRequestBuilders.get("/usuario/{idUser}/noAmigos", "1"))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.length()").value(6))

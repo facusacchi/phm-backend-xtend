@@ -23,42 +23,42 @@ class UsuarioController {
 	UsuarioService usuarioService
 
 	@JsonView(View.Usuario.Login)
-	@PostMapping("/login")
+	@PostMapping("/usuario/login")
 	def loguearUsuario(@RequestBody Usuario usuarioBody) {
 		val usuario = usuarioService.loguearUsuario(usuarioBody)		
 		ResponseEntity.ok(usuario)
 	}
 	
 	@JsonView(View.Usuario.Perfil)
-	@PutMapping("/perfilDeUsuario/{idUser}/pregunta/{idPregunta}")
+	@PutMapping("/usuario/{idUser}/pregunta/{idPregunta}")
 	def responder(@PathVariable Long idUser, @PathVariable Long idPregunta, @RequestBody Respuesta respuesta) {
 		val esCorrecta = usuarioService.responder(idUser, idPregunta, respuesta)
 		ResponseEntity.ok(esCorrecta)
 	}
 
 	@JsonView(View.Usuario.Perfil)
-	@GetMapping("/perfilDeUsuario/{idUser}")
+	@GetMapping("/usuario/{idUser}")
 	def buscarUsuarioPorId(@PathVariable Long idUser) {
 		val usuario = usuarioService.buscarUsuarioPorId(idUser)
 		ResponseEntity.ok(usuario)
 	}
 
 	@JsonView(View.Usuario.Perfil)
-	@PutMapping("/perfilDeUsuario/{idUsuario}")
+	@PutMapping("/usuario/{idUsuario}")
 	def actualizarUsuario(@RequestBody Usuario usuarioBody, @PathVariable Long idUsuario) {
 		val usuario = usuarioService.actualizarUsuario(idUsuario, usuarioBody)
 		ResponseEntity.ok.body(usuario)
 	}
 
 	@JsonView(View.Usuario.TablaNoAmigos)
-	@GetMapping("/usuarios/noAmigos/{idUsuario}")
+	@GetMapping("/usuario/{idUsuario}/noAmigos")
 	def buscarUsuariosNoAmigos(@PathVariable Long idUsuario) {
 		val usuariosNoAmigos = usuarioService.buscarUsuariosNoAmigos(idUsuario)
 		ResponseEntity.ok(usuariosNoAmigos)
 	}
 
 	@JsonView(View.Usuario.Perfil)
-	@PutMapping("/usuarios/{idUsuario}/agregarAmigo/{nuevoAmigoId}")
+	@PutMapping("/usuario/{idUsuario}/agregarAmigo/{nuevoAmigoId}")
 	def agregarAmigo(@PathVariable Long idUsuario, @PathVariable Long nuevoAmigoId) {
 		val usuario = usuarioService.agregarAmigo(idUsuario, nuevoAmigoId)
 		ResponseEntity.ok.body(usuario)

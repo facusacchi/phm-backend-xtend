@@ -15,9 +15,6 @@ interface RepoUsuario extends CrudRepository<Usuario, Long> {
 	
 	def Optional<Usuario> findByUserName(String userName);
 	
-//	@EntityGraph(attributePaths=#["amigos"])
-//	override findAll()
-	
 	@EntityGraph(attributePaths=#["amigos","respuestas"])
 	override findById(Long id)
 	

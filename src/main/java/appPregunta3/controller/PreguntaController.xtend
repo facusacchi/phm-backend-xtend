@@ -35,15 +35,14 @@ class PreguntaController {
 		ResponseEntity.ok(preguntas)
 	}
 	
-	
-	@GetMapping("/pregunta/{id}")
+	@GetMapping("/preguntas/{id}")
 	@JsonView(value=View.Pregunta.Table)
 	def preguntaPorId(@PathVariable Long id) {
 		val pregunta = preguntaService.preguntaPorId(id) 
 		ResponseEntity.ok(pregunta)
 	}
 	
-	@GetMapping("/preguntaEdicion/{id}")
+	@GetMapping("/preguntas/edicion/{id}")
 	@JsonView(value=View.Pregunta.Edicion)
 	def preguntaEdicionPorId(@PathVariable Long id) {
 		val pregunta = preguntaService.preguntaPorId(id) 
@@ -64,13 +63,13 @@ class PreguntaController {
 		ResponseEntity.ok(preguntas)
 	}
 	
-	@PutMapping(value="/pregunta/{id}")
+	@PutMapping(value="/preguntas/{id}")
 	def actualizarPregunta(@RequestBody Pregunta preguntaModificada, @PathVariable Long id) {
 		preguntaService.actualizarPregunta(preguntaModificada, id)
 		ResponseEntity.ok("Pregunta actualizada correctamente")
 	}
 	
-	@PostMapping(value="/{idAutor}/pregunta")
+	@PostMapping(value="/preguntas/{idAutor}")
 	def crearPregunta(@RequestBody Pregunta bodyPregunta, @PathVariable Long idAutor) {
 		preguntaService.crearPregunta(bodyPregunta, idAutor)
 		ResponseEntity.ok("Pregunta creada correctamente")

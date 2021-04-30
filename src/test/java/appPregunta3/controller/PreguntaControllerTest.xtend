@@ -59,7 +59,7 @@ class PreguntaControllerTest {
 	@DisplayName("Buscar pregunta por id")
 	def void getPreguntaPorId() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/pregunta/{id}", preguntaId))
+		.perform(MockMvcRequestBuilders.get("/preguntas/{id}", preguntaId))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.descripcion").value("¿Por que sibarita es tan rica?"))
@@ -69,7 +69,7 @@ class PreguntaControllerTest {
 	@DisplayName("Buscar pregunta por id inexistente, lanza status 404")
 	def void getPreguntaPorIdInexistente() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/pregunta/{id}","9999"))
+		.perform(MockMvcRequestBuilders.get("/preguntas/{id}","9999"))
 		.andExpect(status().isNotFound())
 	}
 	
@@ -77,7 +77,7 @@ class PreguntaControllerTest {
 	@DisplayName("Buscar pregunta con id null, lanza status 400")
 	def void getPreguntaPorIdNull() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/pregunta/{id}", "null"))
+		.perform(MockMvcRequestBuilders.get("/preguntas/{id}", "null"))
 		.andExpect(status().isBadRequest())
 	}
 	
@@ -97,7 +97,7 @@ class PreguntaControllerTest {
 	def void actualizarPregunta() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/pregunta/{id}", preguntaId)
+			MockMvcRequestBuilders.put("/preguntas/{id}", preguntaId)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{	"id":' + preguntaId + ',
 						"respuestaCorrecta":"Es existencial",
@@ -115,7 +115,7 @@ class PreguntaControllerTest {
 	def void actualizarPreguntaOpcionCorrectaVaciaError() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.put("/pregunta/{id}", preguntaId)
+			MockMvcRequestBuilders.put("/preguntas/{id}", preguntaId)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{	"id":' + preguntaId + ',
 						"respuestaCorrecta":"",
@@ -132,7 +132,7 @@ class PreguntaControllerTest {
 	def void creoPreguntaSatisfactoriaente() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+			MockMvcRequestBuilders.post("/preguntas/{idAutor}", "1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content('{
     						"descripcion": "nueva",
@@ -155,7 +155,7 @@ class PreguntaControllerTest {
 	def void crearPreguntaDescripcionVaciaError() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+			MockMvcRequestBuilders.post("/preguntas/{idAutor}", "1")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{
     						"descripcion": "",
@@ -176,7 +176,7 @@ class PreguntaControllerTest {
 	def void crearPreguntaSinOpcionesError() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+			MockMvcRequestBuilders.post("/preguntas/{idAutor}", "1")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{
     						"descripcion": "sin opciones",
@@ -193,7 +193,7 @@ class PreguntaControllerTest {
 	def void crearPreguntaInvalidaError() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.post("/{idAutor}/pregunta", "1")
+			MockMvcRequestBuilders.post("/preguntas/{idAutor}", "1")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{}')
 		)

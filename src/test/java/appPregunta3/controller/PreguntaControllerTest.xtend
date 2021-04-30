@@ -39,7 +39,7 @@ class PreguntaControllerTest {
 	@DisplayName("Buscar pregunta por valor de busqueda, no activa, no respondida por user")
 	def void getPreguntasPorStringNoActivas() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/preguntas/{valorBusqueda}/{activas}/{idUser}", "Cual es la masa", "false", "1"))
+		.perform(MockMvcRequestBuilders.get("/preguntas/all/{valorBusqueda}/noRespondidasPorUsuario/{idUser}", "Cual es la masa", "1"))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.[0].descripcion").value("¿Cual es la masa del sol?"))
@@ -49,7 +49,7 @@ class PreguntaControllerTest {
 	@DisplayName("Buscar pregunta por valor de busqueda, activa, no respondida por user")
 	def void getPreguntasPorStringActivas() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/preguntas/{valorBusqueda}/{activas}/{idUser}", "mas lento", "true", "1"))
+		.perform(MockMvcRequestBuilders.get("/preguntas/activas/{valorBusqueda}/noRespondidasPorUsuario/{idUser}", "mas lento", "1"))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.[0].descripcion").value("¿Que es mas lento que un piropo de tartamudo?"))
@@ -85,7 +85,7 @@ class PreguntaControllerTest {
 	@DisplayName("Buscar todas las preguntas activas")
 	def void getTodasLasPreguntasActivas() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/preguntasAll/{activas}/{idUser}", "true", "1"))
+		.perform(MockMvcRequestBuilders.get("/preguntas/activas/noRespondidasPorUsuario/{idUser}", "1"))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.length()").value(3))

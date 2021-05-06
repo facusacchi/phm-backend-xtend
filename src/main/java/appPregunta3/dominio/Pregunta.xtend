@@ -1,46 +1,78 @@
-package dominio
+package appPregunta3.dominio
 
-import java.time.LocalDateTime		
-import java.util.HashSet
-import java.util.Set
-import org.eclipse.xtend.lib.annotations.Accessors
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.time.format.DateTimeFormatter
+import com.fasterxml.jackson.annotation.JsonIgnore	
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonView
-import serializer.View
-import exceptions.NullFieldException
-import exceptions.NullCollectionException
-import exceptions.BusinessException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.HashSet
+import java.util.Set
+import javax.persistence.Column
+import javax.persistence.DiscriminatorColumn
+import javax.persistence.DiscriminatorType
+import javax.persistence.ElementCollection
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.Inheritance
+import javax.persistence.InheritanceType
+import javax.persistence.ManyToOne
+import javax.persistence.Transient
+import org.eclipse.xtend.lib.annotations.Accessors
+import appPregunta3.serializer.View
+import appPregunta3.dominio.Respuesta
+import javax.persistence.GenerationType
+import javax.persistence.TableGenerator
 
+@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes(
+@JsonSubTypes(#[
     @JsonSubTypes.Type(value = Simple, name = "simple"),
     @JsonSubTypes.Type(value = DeRiesgo, name = "deRiesgo"),
     @JsonSubTypes.Type(value = Solidaria, name = "solidaria")
-)
+])
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="tipo_pregunta",    
+                     discriminatorType=DiscriminatorType.STRING)
 @Accessors
-abstract class Pregunta extends Entity {
+abstract class Pregunta {
 	
-	@JsonView(View.Pregunta.Table)
-	int puntos
-	@JsonView(View.Pregunta.Busqueda, View.Pregunta.Table)
+	@Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "pregunta-generator")
+	@TableGenerator(name = "pregunta-generator",
+      table = "dep_ids",
+      pkColumnName = "seq_id",
+      valueColumnName = "seq_value")
+	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
+	Long id
+	
+	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion)
+	Integer puntos
+	
+	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
+	@Column(length=150)
 	String descripcion
-	@JsonView(View.Pregunta.Table, View.Pregunta.Busqueda)
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
 	Usuario autor
-	@JsonView(View.Pregunta.Table)
+	
+	@JsonView(View.Pregunta.Edicion)
+	@Column(length=150)
 	String respuestaCorrecta
+	
 	@JsonIgnore
 	LocalDateTime fechaHoraCreacion
-	@JsonView(View.Pregunta.Table)
+	
+	@ElementCollection
+	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion)
 	Set<String> opciones = new HashSet<String>
+	
 	static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss"
-	@JsonView(View.Pregunta.Table)
-	boolean activa
 
 	@JsonProperty("fechaHoraCreacion")
 	def setFecha(String fecha) {
@@ -55,18 +87,15 @@ abstract class Pregunta extends Entity {
 	def formatter() {
 		DateTimeFormatter.ofPattern(DATE_PATTERN)
 	}
-
+	
+	@JsonView(View.Pregunta.Table)
 	def estaActiva() {
 		fechaHoraCreacion.plusMinutes(5).isAfter(LocalDateTime.now())
 	}
 	
-	override cumpleCondicionDeBusqueda(String valorBusqueda) {
+	def cumpleCondicionDeBusqueda(String valorBusqueda) {
 		descripcion.toLowerCase.contains(valorBusqueda.toLowerCase)
 	}	
-
-	def boolean esCorrecta(String opcionElegida) {
-		this.respuestaCorrecta.toLowerCase == opcionElegida.toLowerCase 
-	}
 	
 	def agregarOpcion(String opcion) {
 		opciones.add(opcion)
@@ -77,24 +106,20 @@ abstract class Pregunta extends Entity {
 		respuesta.puntos = puntos
 	}
 	
-	def validar() {
-		if(descripcion === null || respuestaCorrecta === null) {
-			throw new NullFieldException("Error al dejar campos nulos en la pregunta")
-		}
-		if(opciones.isEmpty) {
-			throw new NullCollectionException("Error al dejar colecciones vacias en la pregunta")
-		}
-	}
 }
 
+@Entity
 class Simple extends Pregunta {
 	new() {
 		this.puntos = 10
 	}
 }
 
+@Entity
 class DeRiesgo extends Pregunta {
-	int puntosRestados
+	
+	@Transient
+	Integer puntosRestados
 	
 	new() {
 		this.puntos = 100
@@ -110,6 +135,7 @@ class DeRiesgo extends Pregunta {
 	}
 }
 
+@Entity
 class Solidaria extends Pregunta {
 	new() {
 		this.puntos = puntos
@@ -120,10 +146,5 @@ class Solidaria extends Pregunta {
 		this.autor.restarPuntaje(puntos)
 	}
 	
-	def validar(Usuario autor) {
-		if(puntos > autor.puntaje) {
-			throw new BusinessException("El puntaje asignado a la pregunta debe ser menor al puntaje actual del autor")
-		}
-	}
 }
 

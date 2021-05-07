@@ -8,11 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionPregunta.*
 import java.util.Set
+import java.time.LocalDate
+import appPregunta3.dominio.Modificacion
+import appPregunta3.dao.RepoModificacion
 
 @Service
 class PreguntaService extends TemplateService {
 	@Autowired
 	RepoPregunta repoPregunta
+	
+	@Autowired
+	RepoModificacion repoModificacion
 	
 	@Autowired
 	UsuarioService serviceUsuario
@@ -61,12 +67,22 @@ class PreguntaService extends TemplateService {
 		if(preguntaModificada instanceof Solidaria) {
 			validarPuntajeAsignado(preguntaModificada, autor)
 		}
+		val modificacion = new Modificacion(
+									LocalDate.now,
+									pregunta.descripcion,
+									preguntaModificada.descripcion,
+									pregunta.opciones,
+									preguntaModificada.opciones
+								)
+		
 		pregunta => [
 			descripcion = preguntaModificada.descripcion
 			opciones = preguntaModificada.opciones
 			respuestaCorrecta = preguntaModificada.respuestaCorrecta
 			puntos = preguntaModificada.puntos
 		]
+		
+		repoModificacion.save(modificacion)
 		repoPregunta.save(pregunta)
 	}
 	

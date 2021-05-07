@@ -187,9 +187,9 @@ class Bootstrap implements InitializingBean {
 //########################### INIT PREGUNTAS #####################################################//	
 	def void initPreguntas() {
 
-		this.crearPregunta(new Simple => [
+		this.crearPregunta(new Simple(pepe) => [
 			descripcion = "¿Por que sibarita es tan rica?"
-			autor = pepe
+//			autor = pepe
 			fechaHoraCreacion = LocalDateTime.now
 			// fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			agregarOpcion("Por la muzza")
@@ -200,9 +200,9 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Es existencial"
 		])
 
-		this.crearPregunta(new Simple => [
+		this.crearPregunta(new Simple(pancho) => [
 			descripcion = "¿Cual es la masa del sol?"
-			autor = pancho
+//			autor = pancho
 			// fechaHoraCreacion = LocalDateTime.now
 			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			agregarOpcion("Mucha")
@@ -212,9 +212,9 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Mucha"
 		])
 
-		this.crearPregunta(new DeRiesgo => [
+		this.crearPregunta(new DeRiesgo(manolo) => [
 			descripcion = "¿Que es mas lento que un piropo de tartamudo?"
-			autor = manolo
+//			autor = manolo
 			fechaHoraCreacion = LocalDateTime.now
 			// fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			agregarOpcion("Un caracol")
@@ -224,9 +224,9 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Higuain"
 		])
 
-		this.crearPregunta(new DeRiesgo => [
+		this.crearPregunta(new DeRiesgo(pancho) => [
 			descripcion = "Cocodrilo que durmio es..."
-			autor = pancho
+//			autor = pancho
 			// fechaHoraCreacion = LocalDateTime.now
 			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			agregarOpcion("Feroz")
@@ -237,9 +237,9 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Cartera"
 		])
 
-		this.crearPregunta(new Solidaria() => [
+		this.crearPregunta(new Solidaria(casandra) => [
 			descripcion = "Hamlet es una obra de..."
-			autor = casandra
+//			autor = casandra
 			fechaHoraCreacion = LocalDateTime.now
 			// fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			puntos = 15
@@ -251,9 +251,9 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Shakespare"
 		])
 
-		this.crearPregunta(new Solidaria() => [
+		this.crearPregunta(new Solidaria(pepe) => [
 			descripcion = "Mas vale pajaro en mano que..."
-			autor = pepe
+//			autor = pepe
 			// fechaHoraCreacion = LocalDateTime.now
 			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			puntos = 30

@@ -4,23 +4,25 @@ import appPregunta3.dao.RepoPregunta
 import appPregunta3.dominio.Pregunta
 import appPregunta3.dominio.Solidaria
 import appPregunta3.dominio.Usuario
-import java.util.List
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionPregunta.*
-
+import java.util.Set
 
 @Service
 class PreguntaService extends TemplateService {
 	@Autowired
 	RepoPregunta repoPregunta
 	
+	@Autowired
+	UsuarioService serviceUsuario
+	
 	def getPreguntasActivasPorString(String valorBusqueda, Long idUser) {
 		val user = buscarUsuario(idUser)
 		val preguntas = this.repoPregunta.findByDescripcionContainsIgnoreCase(valorBusqueda).toList
 		val preguntasNoRespondidas = preguntas.filter[ pregunta | !user.preguntasRespondidas
 			.contains(pregunta.descripcion.toLowerCase)
-		].toList
+		].toSet
 		val preguntasActivasNoRespondidas = preguntasActivas(preguntasNoRespondidas)
 		preguntasActivasNoRespondidas
 	}
@@ -47,10 +49,10 @@ class PreguntaService extends TemplateService {
 	
 	def todasLasPreguntas(Long idUser) {
 		val user = buscarUsuario(idUser)
-		val preguntas = repoPregunta.findAllNoRespondidasPor(user.id).toSet
+		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(user.id).toSet
+		val preguntas = repoPregunta.findAllNoRespondidasPor(preguntasRespondidas).toSet
 		preguntas
 	}
-	
 	
 	def actualizarPregunta(Pregunta preguntaModificada, Long id) {
 		preguntaModificada.validarCamposVacios
@@ -79,10 +81,10 @@ class PreguntaService extends TemplateService {
 	}
 	
 	def filtrarPorActivasYNoRespondidas(Usuario user) {
-		return preguntasActivas(repoPregunta.findAllNoRespondidasPor(user.id)).toSet
+		return preguntasActivas(todasLasPreguntas(user.id)).toSet
 	}
 	
-	def preguntasActivas(List<Pregunta> preguntas) {
+	def preguntasActivas(Set<Pregunta> preguntas) {
 		return preguntas.filter[pregunta | pregunta.estaActiva].toList
 	}
 	

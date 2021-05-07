@@ -10,25 +10,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.HashSet
 import java.util.Set
-import javax.persistence.Column
-import javax.persistence.DiscriminatorColumn
-import javax.persistence.DiscriminatorType
-import javax.persistence.ElementCollection
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Inheritance
-import javax.persistence.InheritanceType
-import javax.persistence.ManyToOne
-import javax.persistence.Transient
 import org.eclipse.xtend.lib.annotations.Accessors
 import appPregunta3.serializer.View
 import appPregunta3.dominio.Respuesta
-import javax.persistence.GenerationType
-import javax.persistence.TableGenerator
+import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.Transient
 
-@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(#[
@@ -36,39 +24,34 @@ import javax.persistence.TableGenerator
     @JsonSubTypes.Type(value = DeRiesgo, name = "deRiesgo"),
     @JsonSubTypes.Type(value = Solidaria, name = "solidaria")
 ])
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipo_pregunta",    
-                     discriminatorType=DiscriminatorType.STRING)
+
 @Accessors
+@Document(collection = "preguntas")
 abstract class Pregunta {
 	
-	@Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "pregunta-generator")
-	@TableGenerator(name = "pregunta-generator",
-      table = "dep_ids",
-      pkColumnName = "seq_id",
-      valueColumnName = "seq_value")
+	@Id
 	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
-	Long id
+	String id
 	
 	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion)
 	Integer puntos
 	
 	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
-	@Column(length=150)
 	String descripcion
 	
-	@ManyToOne(fetch=FetchType.LAZY)
 	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
+	@Transient
 	Usuario autor
 	
+	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
+	Long autorId
+	
 	@JsonView(View.Pregunta.Edicion)
-	@Column(length=150)
 	String respuestaCorrecta
 	
 	@JsonIgnore
 	LocalDateTime fechaHoraCreacion
 	
-	@ElementCollection
 	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion)
 	Set<String> opciones = new HashSet<String>
 	
@@ -108,24 +91,28 @@ abstract class Pregunta {
 	
 }
 
-@Entity
 class Simple extends Pregunta {
-	new() {
+	
+	new() {}
+	
+	new(Usuario autor) {
+		this.autorId = autor.id
 		this.puntos = 10
 	}
 }
 
-@Entity
 class DeRiesgo extends Pregunta {
 	
 	@Transient
 	Integer puntosRestados
 	
-	new() {
+	new() {}
+	
+	new(Usuario autor) {
+		this.autorId = autor.id
 		this.puntos = 100
 		this.puntosRestados = 50
 	}
-	
 	
 	override gestionarRespuestaDe(Usuario user, Respuesta respuesta) {
 		super.gestionarRespuestaDe(user, respuesta)
@@ -135,9 +122,12 @@ class DeRiesgo extends Pregunta {
 	}
 }
 
-@Entity
 class Solidaria extends Pregunta {
-	new() {
+	
+	new() {}
+	
+	new(Usuario autor) {
+		this.autorId = autor.id
 		this.puntos = puntos
 	}
 	

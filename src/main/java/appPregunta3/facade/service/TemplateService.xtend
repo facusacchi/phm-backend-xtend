@@ -16,7 +16,7 @@ abstract class TemplateService {
 	RepoUsuario repoUsuario
 	
 	def buscarPregunta(Long idPregunta) {
-		val pregunta = repoPregunta.findById(idPregunta).orElseThrow([
+		val pregunta = repoPregunta.findById(idPregunta.toString).orElseThrow([
 			throw new NotFoundException("Pregunta no encontrada")
 		])
 		pregunta

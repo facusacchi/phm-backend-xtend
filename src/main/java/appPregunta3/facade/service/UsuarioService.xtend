@@ -86,4 +86,8 @@ class UsuarioService extends TemplateService {
 		usuarioLogueado.validarCamposVacios
 	}
 	
+	def findAllPreguntasRespondidasPor(Long userId) {
+		repoUsuario.findAllPreguntasRespondidasPor(userId)
+	}
+	
 }

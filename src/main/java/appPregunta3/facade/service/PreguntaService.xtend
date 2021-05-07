@@ -36,7 +36,7 @@ class PreguntaService extends TemplateService {
 		preguntasNoRespondidas
 	}
 	
-	def preguntaPorId(Long id) {
+	def preguntaPorId(String id) {
 		val pregunta = buscarPregunta(id)
 		pregunta
 	}
@@ -54,7 +54,7 @@ class PreguntaService extends TemplateService {
 		preguntas
 	}
 	
-	def actualizarPregunta(Pregunta preguntaModificada, Long id) {
+	def actualizarPregunta(Pregunta preguntaModificada, String id) {
 		preguntaModificada.validarCamposVacios
 		val pregunta = buscarPregunta(id)
 		val autor = buscarUsuario(pregunta.autor.id)

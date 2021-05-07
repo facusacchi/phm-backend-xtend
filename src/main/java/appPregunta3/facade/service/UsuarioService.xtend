@@ -26,7 +26,7 @@ class UsuarioService extends TemplateService {
 		usuario
 	}
 	
-	def responder(Long idUser, Long idPregunta, Respuesta respuesta) {
+	def responder(Long idUser, String idPregunta, Respuesta respuesta) {
 		validarAntesDeResponder(respuesta)
 		val pregunta = buscarPregunta(idPregunta)
 		val usuario = buscarUsuario(idUser)

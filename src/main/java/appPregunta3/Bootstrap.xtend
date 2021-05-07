@@ -188,6 +188,9 @@ class Bootstrap implements InitializingBean {
 	def void initPreguntas() {
 
 		this.crearPregunta(new Simple(pepe) => [
+			nombreAutor = "Pepe"
+			apellidoAutor = "Palala"
+			userNameAutor = "pepito"
 			descripcion = "¿Por que sibarita es tan rica?"
 //			autor = pepe
 			fechaHoraCreacion = LocalDateTime.now
@@ -201,6 +204,9 @@ class Bootstrap implements InitializingBean {
 		])
 
 		this.crearPregunta(new Simple(pancho) => [
+			nombreAutor = "Pancho"
+			apellidoAutor = "Rancho"
+			userNameAutor = "zafarancho"
 			descripcion = "¿Cual es la masa del sol?"
 //			autor = pancho
 			// fechaHoraCreacion = LocalDateTime.now
@@ -213,6 +219,9 @@ class Bootstrap implements InitializingBean {
 		])
 
 		this.crearPregunta(new DeRiesgo(manolo) => [
+			nombreAutor = "Manolo"
+			apellidoAutor = "Palala"
+			userNameAutor = "manolito"
 			descripcion = "¿Que es mas lento que un piropo de tartamudo?"
 //			autor = manolo
 			fechaHoraCreacion = LocalDateTime.now
@@ -225,6 +234,9 @@ class Bootstrap implements InitializingBean {
 		])
 
 		this.crearPregunta(new DeRiesgo(pancho) => [
+			nombreAutor = "Pancho"
+			apellidoAutor = "Rancho"
+			userNameAutor = "zafarancho"
 			descripcion = "Cocodrilo que durmio es..."
 //			autor = pancho
 			// fechaHoraCreacion = LocalDateTime.now
@@ -238,6 +250,9 @@ class Bootstrap implements InitializingBean {
 		])
 
 		this.crearPregunta(new Solidaria(casandra) => [
+			nombreAutor = "Casandra"
+			apellidoAutor = "Malandra"
+			userNameAutor = "casalandra"
 			descripcion = "Hamlet es una obra de..."
 //			autor = casandra
 			fechaHoraCreacion = LocalDateTime.now
@@ -252,6 +267,9 @@ class Bootstrap implements InitializingBean {
 		])
 
 		this.crearPregunta(new Solidaria(pepe) => [
+			nombreAutor = "Pepe"
+			apellidoAutor = "Palala"
+			userNameAutor = "pepito"
 			descripcion = "Mas vale pajaro en mano que..."
 //			autor = pepe
 			// fechaHoraCreacion = LocalDateTime.now

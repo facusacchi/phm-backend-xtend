@@ -1,11 +1,11 @@
 spring:
-  data:
-    mongodb:
-      database: pregunta3
-      host: localhost
-      port: 27017
-      repositories:
-        enabled: true
+    data:
+      mongodb:
+        database: pregunta3
+        host: localhost
+        port: 27017
+        repositories:
+          enabled: true
 
     datasource:
         url: jdbc:mysql://localhost/pregunta3

@@ -8,7 +8,7 @@ spring:
           enabled: true
 
     datasource:
-        url: jdbc:mysql://localhost/pregunta3
+        url: jdbc:mysql://localhost/pregunta3?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         username: root
         password: 1234
         driver-class-name: com.mysql.cj.jdbc.Driver

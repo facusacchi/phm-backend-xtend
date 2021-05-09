@@ -70,6 +70,8 @@ class PreguntaService extends TemplateService {
 									LocalDate.now,
 									pregunta.descripcion,
 									preguntaModificada.descripcion,
+									pregunta.respuestaCorrecta,
+									preguntaModificada.respuestaCorrecta,
 									pregunta.opciones,
 									preguntaModificada.opciones
 								)

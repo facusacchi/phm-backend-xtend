@@ -101,7 +101,9 @@ abstract class Pregunta {
 
 class Simple extends Pregunta {
 	
-	new() {}
+	new() {
+		this.puntos = 10
+	}
 	
 	new(Usuario autor) {
 		this.autorId = autor.id
@@ -114,7 +116,10 @@ class DeRiesgo extends Pregunta {
 	@Transient
 	Integer puntosRestados
 	
-	new() {}
+	new() {
+		this.puntos = 100
+		this.puntosRestados = 50
+	}
 	
 	new(Usuario autor) {
 		this.autorId = autor.id
@@ -132,7 +137,9 @@ class DeRiesgo extends Pregunta {
 
 class Solidaria extends Pregunta {
 	
-	new() {}
+	new() {
+		this.puntos = puntos
+	}
 	
 	new(Usuario autor) {
 		this.autorId = autor.id

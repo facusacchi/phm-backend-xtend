@@ -92,7 +92,10 @@ class PreguntaService extends TemplateService {
 		if(bodyPregunta instanceof Solidaria) {
 			validarPuntajeAsignado(bodyPregunta, autor)
 		}
-		bodyPregunta.autor = autor
+		bodyPregunta.nombreAutor = autor.nombre
+		bodyPregunta.apellidoAutor = autor.apellido
+		bodyPregunta.userNameAutor = autor.userName
+		bodyPregunta.autorId = autor.id
 		repoPregunta.save(bodyPregunta)
 	}
 	

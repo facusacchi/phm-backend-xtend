@@ -3,7 +3,6 @@ package appPregunta3.facade.service
 import appPregunta3.dao.RepoPregunta	
 import appPregunta3.dominio.Pregunta
 import appPregunta3.dominio.Solidaria
-import appPregunta3.dominio.Usuario
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionPregunta.*
@@ -53,9 +52,8 @@ class PreguntaService extends TemplateService {
 	}
 	
 	def todasLasPreguntas(Long idUser) {
-		val user = buscarUsuario(idUser)
-//		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(user.id).toSet
-		val preguntas = repoPregunta.findAllNoRespondidasPor(user.preguntasRespondidas)
+		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(idUser).toSet
+		val preguntas = repoPregunta.findAllNoRespondidasPor(preguntasRespondidas)
 		preguntas
 	}
 	

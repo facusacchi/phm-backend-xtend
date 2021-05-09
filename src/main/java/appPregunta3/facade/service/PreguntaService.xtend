@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionPregunta.*
 import java.util.Set
-import java.time.LocalDate
 import appPregunta3.dominio.Modificacion
 import appPregunta3.dao.RepoModificacion
+import java.time.LocalDateTime
 
 @Service
 class PreguntaService extends TemplateService {
@@ -67,7 +67,7 @@ class PreguntaService extends TemplateService {
 			validarPuntajeAsignado(preguntaModificada, autor)
 		}
 		val modificacion = new Modificacion(
-									LocalDate.now,
+									LocalDateTime.now,
 									pregunta.descripcion,
 									preguntaModificada.descripcion,
 									pregunta.respuestaCorrecta,
@@ -83,8 +83,8 @@ class PreguntaService extends TemplateService {
 			puntos = preguntaModificada.puntos
 		]
 		
-		repoModificacion.save(modificacion)
 		repoPregunta.save(pregunta)
+		repoModificacion.save(modificacion)
 	}
 	
 	def crearPregunta(Pregunta bodyPregunta, Long idAutor) {

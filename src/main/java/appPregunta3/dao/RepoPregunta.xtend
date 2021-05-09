@@ -17,5 +17,5 @@ interface RepoPregunta extends MongoRepository<Pregunta, String> {
 //	override findById(Long id)
 
 	@Query("{ descripcion: { $nin:?0 } }")
-	def List<Pregunta> findAllNoRespondidasPor(Set<String> preguntas)
+	def Set<Pregunta> findAllNoRespondidasPor(Set<String> preguntasRespondidas)
 }

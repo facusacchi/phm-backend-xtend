@@ -48,15 +48,14 @@ class PreguntaService extends TemplateService {
 	}
 	
 	def todasLasPreguntasActivas(Long idUser) {
-		val user = buscarUsuario(idUser)
-		val preguntas = filtrarPorActivasYNoRespondidas(user)
+		val preguntas = preguntasActivas(todasLasPreguntas(idUser)).toSet
 		preguntas
 	}
 	
 	def todasLasPreguntas(Long idUser) {
 		val user = buscarUsuario(idUser)
-		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(user.id).toSet
-		val preguntas = repoPregunta.findAllNoRespondidasPor(preguntasRespondidas).toSet
+//		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(user.id).toSet
+		val preguntas = repoPregunta.findAllNoRespondidasPor(user.preguntasRespondidas)
 		preguntas
 	}
 	
@@ -94,10 +93,6 @@ class PreguntaService extends TemplateService {
 		}
 		bodyPregunta.autor = autor
 		repoPregunta.save(bodyPregunta)
-	}
-	
-	def filtrarPorActivasYNoRespondidas(Usuario user) {
-		return preguntasActivas(todasLasPreguntas(user.id)).toSet
 	}
 	
 	def preguntasActivas(Set<Pregunta> preguntas) {

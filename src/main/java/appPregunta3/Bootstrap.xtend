@@ -186,6 +186,8 @@ class Bootstrap implements InitializingBean {
 
 //########################### INIT PREGUNTAS #####################################################//	
 	def void initPreguntas() {
+		
+		this.repoPregunta.deleteAll
 
 		this.crearPregunta(new Simple(pepe) => [
 			nombreAutor = "Pepe"

@@ -1,6 +1,6 @@
 package appPregunta3.controller
 
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Autowired	
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.test.context.ActiveProfiles
@@ -14,8 +14,6 @@ import javax.transaction.Transactional
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import appPregunta3.dao.RepoPregunta
-import org.junit.jupiter.api.BeforeEach
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -26,15 +24,7 @@ class UsuarioControllerTest {
 	@Autowired
 	MockMvc mockMvc
 	
-	@Autowired
-	RepoPregunta repoPregunta
-	
 	Long preguntaId
-	
-	@BeforeEach()
-	def void init() {
-		preguntaId = repoPregunta.findAll.head.id
-	}
 
 	@Test
 	@DisplayName("hacer sign in de un usuario")

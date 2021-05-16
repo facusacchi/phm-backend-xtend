@@ -1,11 +1,12 @@
 spring:
     data:
       mongodb:
-        database: pregunta3
-        host: localhost
-        port: 27017
-        repositories:
-          enabled: true
+        uri: mongodb://mongo1:30001,mongo2:30002,mongo3:30003/pregunta3?replicaSet=miReplicaSet
+#        database: pregunta3
+#        host: localhost
+#        port: 27017
+#        repositories:
+#          enabled: true
 
     datasource:
         url: jdbc:mysql://localhost/pregunta3?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC

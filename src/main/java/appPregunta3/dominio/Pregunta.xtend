@@ -116,7 +116,6 @@ class DeRiesgo extends Pregunta {
 		this.puntos = 100
 		this.puntosRestados = 50
 	}
-	
 
 	override gestionarRespuestaDe(Usuario user, Respuesta respuesta) {
 		super.gestionarRespuestaDe(user, respuesta)

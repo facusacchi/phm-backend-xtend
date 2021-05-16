@@ -5,7 +5,6 @@ import appPregunta3.dominio.Pregunta
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.mongodb.repository.Query
 import java.util.Collection
-import java.util.List
 import java.util.Set
 
 //@Repository

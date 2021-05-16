@@ -3,14 +3,13 @@ package appPregunta3.facade.service
 import appPregunta3.dao.RepoPregunta	
 import appPregunta3.dominio.Pregunta
 import appPregunta3.dominio.Solidaria
-import appPregunta3.dominio.Usuario
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionPregunta.*
 import java.util.Set
-import java.time.LocalDate
 import appPregunta3.dominio.Modificacion
 import appPregunta3.dao.RepoModificacion
+import java.time.LocalDateTime
 
 @Service
 class PreguntaService extends TemplateService {
@@ -53,9 +52,8 @@ class PreguntaService extends TemplateService {
 	}
 	
 	def todasLasPreguntas(Long idUser) {
-		val user = buscarUsuario(idUser)
-//		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(user.id).toSet
-		val preguntas = repoPregunta.findAllNoRespondidasPor(user.preguntasRespondidas)
+		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(idUser).toSet
+		val preguntas = repoPregunta.findAllNoRespondidasPor(preguntasRespondidas)
 		preguntas
 	}
 	
@@ -67,7 +65,7 @@ class PreguntaService extends TemplateService {
 			validarPuntajeAsignado(preguntaModificada, autor)
 		}
 		val modificacion = new Modificacion(
-									LocalDate.now,
+									LocalDateTime.now,
 									pregunta.descripcion,
 									preguntaModificada.descripcion,
 									pregunta.respuestaCorrecta,
@@ -83,8 +81,8 @@ class PreguntaService extends TemplateService {
 			puntos = preguntaModificada.puntos
 		]
 		
-		repoModificacion.save(modificacion)
 		repoPregunta.save(pregunta)
+		repoModificacion.save(modificacion)
 	}
 	
 	def crearPregunta(Pregunta bodyPregunta, Long idAutor) {
@@ -93,7 +91,10 @@ class PreguntaService extends TemplateService {
 		if(bodyPregunta instanceof Solidaria) {
 			validarPuntajeAsignado(bodyPregunta, autor)
 		}
-		bodyPregunta.autor = autor
+		bodyPregunta.nombreAutor = autor.nombre
+		bodyPregunta.apellidoAutor = autor.apellido
+		bodyPregunta.userNameAutor = autor.userName
+		bodyPregunta.autorId = autor.id
 		repoPregunta.save(bodyPregunta)
 	}
 	

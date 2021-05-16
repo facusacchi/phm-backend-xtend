@@ -191,13 +191,9 @@ class Bootstrap implements InitializingBean {
 
 		this.crearPregunta(new Simple() => [
 			autorId = pepe.id
-			nombreAutor = "Pepe"
-			apellidoAutor = "Palala"
-			userNameAutor = "pepito"
+			nombreApellidoAutor = "Pepe Palala"
 			descripcion = "¿Por que sibarita es tan rica?"
-//			autor = pepe
 			fechaHoraCreacion = LocalDateTime.now
-			// fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			agregarOpcion("Por la muzza")
 			agregarOpcion("Por la salsa")
 			agregarOpcion("Por la masa")
@@ -208,12 +204,8 @@ class Bootstrap implements InitializingBean {
 
 		this.crearPregunta(new Simple() => [
 			autorId = pancho.id
-			nombreAutor = "Pancho"
-			apellidoAutor = "Rancho"
-			userNameAutor = "zafarancho"
+			nombreApellidoAutor = "Pancho Rancho"
 			descripcion = "¿Cual es la masa del sol?"
-//			autor = pancho
-			// fechaHoraCreacion = LocalDateTime.now
 			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			agregarOpcion("Mucha")
 			agregarOpcion("Poca")
@@ -224,13 +216,9 @@ class Bootstrap implements InitializingBean {
 
 		this.crearPregunta(new DeRiesgo() => [
 			autorId = manolo.id
-			nombreAutor = "Manolo"
-			apellidoAutor = "Palala"
-			userNameAutor = "manolito"
+			nombreApellidoAutor = "Manolo Palala"
 			descripcion = "¿Que es mas lento que un piropo de tartamudo?"
-//			autor = manolo
 			fechaHoraCreacion = LocalDateTime.now
-			// fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			agregarOpcion("Un caracol")
 			agregarOpcion("Higuain")
 			agregarOpcion("Una babosa")
@@ -240,12 +228,8 @@ class Bootstrap implements InitializingBean {
 
 		this.crearPregunta(new DeRiesgo() => [
 			autorId = pancho.id
-			nombreAutor = "Pancho"
-			apellidoAutor = "Rancho"
-			userNameAutor = "zafarancho"
+			nombreApellidoAutor = "Pancho Rancho"
 			descripcion = "Cocodrilo que durmio es..."
-//			autor = pancho
-			// fechaHoraCreacion = LocalDateTime.now
 			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			agregarOpcion("Feroz")
 			agregarOpcion("Anfibio")
@@ -257,13 +241,9 @@ class Bootstrap implements InitializingBean {
 
 		this.crearPregunta(new Solidaria() => [
 			autorId = casandra.id
-			nombreAutor = "Casandra"
-			apellidoAutor = "Malandra"
-			userNameAutor = "casalandra"
+			nombreApellidoAutor = "Casandra Malandra"
 			descripcion = "Hamlet es una obra de..."
-//			autor = casandra
 			fechaHoraCreacion = LocalDateTime.now
-			// fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			puntos = 15
 			agregarOpcion("Pato donald")
 			agregarOpcion("Micky Mouse")
@@ -275,12 +255,8 @@ class Bootstrap implements InitializingBean {
 
 		this.crearPregunta(new Solidaria() => [
 			autorId = pepe.id
-			nombreAutor = "Pepe"
-			apellidoAutor = "Palala"
-			userNameAutor = "pepito"
+			nombreApellidoAutor = "Pepe Palala"
 			descripcion = "Mas vale pajaro en mano que..."
-//			autor = pepe
-			// fechaHoraCreacion = LocalDateTime.now
 			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
 			puntos = 30
 			agregarOpcion("Pajaro perdido")

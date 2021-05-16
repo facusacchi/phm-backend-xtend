@@ -44,9 +44,8 @@ class PreguntaService extends TemplateService {
 	
 	def preguntaPorId(String id) {
 		val pregunta = buscarPregunta(id)
-		val autor = buscarUsuario(pregunta.autorId)
 		if(!(pregunta instanceof Simple)) {
-			pregunta.autor = autor
+			pregunta.autor = buscarUsuario(pregunta.autorId)
 		}
 		pregunta
 	}

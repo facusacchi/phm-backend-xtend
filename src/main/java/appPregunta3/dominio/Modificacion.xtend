@@ -14,6 +14,7 @@ class Modificacion {
 	@Id
 	String id
 	LocalDateTime fecha
+	String preguntaId
 	String preguntaOld
 	String preguntaNew
 	String respuestaCorrectaOld
@@ -21,8 +22,9 @@ class Modificacion {
 	Set<String> opcionesOld = new HashSet<String>
 	Set<String> opcionesNew = new HashSet<String>
 	
-	new(LocalDateTime _fecha, String _preguntaOld, String _preguntaNew, String _respuestaCorrectaOld, String _respuestaCorrectaNew, Set<String> _opcionesOld, Set<String> _opcionesNew) {
+	new(LocalDateTime _fecha, String preguntaId, String _preguntaOld, String _preguntaNew, String _respuestaCorrectaOld, String _respuestaCorrectaNew, Set<String> _opcionesOld, Set<String> _opcionesNew) {
 		fecha = _fecha
+		this.preguntaId = preguntaId
 		preguntaOld = _preguntaOld
 		preguntaNew = _preguntaNew
 		respuestaCorrectaOld = _respuestaCorrectaOld

@@ -10,6 +10,7 @@ import java.util.Set
 import appPregunta3.dominio.Modificacion
 import appPregunta3.dao.RepoModificacion
 import java.time.LocalDateTime
+import appPregunta3.dominio.Simple
 
 @Service
 class PreguntaService extends TemplateService {
@@ -43,6 +44,10 @@ class PreguntaService extends TemplateService {
 	
 	def preguntaPorId(String id) {
 		val pregunta = buscarPregunta(id)
+		val autor = buscarUsuario(pregunta.autorId)
+		if(!(pregunta instanceof Simple)) {
+			pregunta.autor = autor
+		}
 		pregunta
 	}
 	
@@ -66,6 +71,7 @@ class PreguntaService extends TemplateService {
 		}
 		val modificacion = new Modificacion(
 									LocalDateTime.now,
+									pregunta.id,
 									pregunta.descripcion,
 									preguntaModificada.descripcion,
 									pregunta.respuestaCorrecta,
@@ -91,9 +97,7 @@ class PreguntaService extends TemplateService {
 		if(bodyPregunta instanceof Solidaria) {
 			validarPuntajeAsignado(bodyPregunta, autor)
 		}
-		bodyPregunta.nombreAutor = autor.nombre
-		bodyPregunta.apellidoAutor = autor.apellido
-		bodyPregunta.userNameAutor = autor.userName
+		bodyPregunta.nombreApellidoAutor = autor.nombre + " " + autor.apellido
 		bodyPregunta.autorId = autor.id
 		repoPregunta.save(bodyPregunta)
 	}

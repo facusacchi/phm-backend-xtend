@@ -39,20 +39,13 @@ abstract class Pregunta {
 	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
 	String descripcion
 	
-//	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
-	transient Usuario autor
-	
-	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
-	String nombreAutor
-	
-	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
-	String apellidoAutor
-	
-	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
-	String userNameAutor
+	@JsonView(#[View.Pregunta.Table, View.Pregunta.Edicion])
+	String nombreApellidoAutor
 	
 	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
 	Long autorId
+	
+	transient Usuario autor
 	
 	@JsonView(View.Pregunta.Edicion)
 	String respuestaCorrecta

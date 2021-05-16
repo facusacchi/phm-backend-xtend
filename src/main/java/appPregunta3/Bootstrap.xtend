@@ -189,7 +189,8 @@ class Bootstrap implements InitializingBean {
 		
 		this.repoPregunta.deleteAll
 
-		this.crearPregunta(new Simple(pepe) => [
+		this.crearPregunta(new Simple() => [
+			autorId = pepe.id
 			nombreAutor = "Pepe"
 			apellidoAutor = "Palala"
 			userNameAutor = "pepito"
@@ -205,7 +206,8 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Es existencial"
 		])
 
-		this.crearPregunta(new Simple(pancho) => [
+		this.crearPregunta(new Simple() => [
+			autorId = pancho.id
 			nombreAutor = "Pancho"
 			apellidoAutor = "Rancho"
 			userNameAutor = "zafarancho"
@@ -220,7 +222,8 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Mucha"
 		])
 
-		this.crearPregunta(new DeRiesgo(manolo) => [
+		this.crearPregunta(new DeRiesgo() => [
+			autorId = manolo.id
 			nombreAutor = "Manolo"
 			apellidoAutor = "Palala"
 			userNameAutor = "manolito"
@@ -235,7 +238,8 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Higuain"
 		])
 
-		this.crearPregunta(new DeRiesgo(pancho) => [
+		this.crearPregunta(new DeRiesgo() => [
+			autorId = pancho.id
 			nombreAutor = "Pancho"
 			apellidoAutor = "Rancho"
 			userNameAutor = "zafarancho"
@@ -251,7 +255,8 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Cartera"
 		])
 
-		this.crearPregunta(new Solidaria(casandra) => [
+		this.crearPregunta(new Solidaria() => [
+			autorId = casandra.id
 			nombreAutor = "Casandra"
 			apellidoAutor = "Malandra"
 			userNameAutor = "casalandra"
@@ -268,7 +273,8 @@ class Bootstrap implements InitializingBean {
 			respuestaCorrecta = "Shakespare"
 		])
 
-		this.crearPregunta(new Solidaria(pepe) => [
+		this.crearPregunta(new Solidaria() => [
+			autorId = pepe.id
 			nombreAutor = "Pepe"
 			apellidoAutor = "Palala"
 			userNameAutor = "pepito"

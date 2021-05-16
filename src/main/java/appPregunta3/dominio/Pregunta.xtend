@@ -101,12 +101,10 @@ abstract class Pregunta {
 
 class Simple extends Pregunta {
 	
-	new() {}
-	
-	new(Usuario autor) {
-		this.autorId = autor.id
+	new() {
 		this.puntos = 10
 	}
+	
 }
 
 class DeRiesgo extends Pregunta {
@@ -114,14 +112,12 @@ class DeRiesgo extends Pregunta {
 	@Transient
 	Integer puntosRestados
 	
-	new() {}
-	
-	new(Usuario autor) {
-		this.autorId = autor.id
+	new() {
 		this.puntos = 100
 		this.puntosRestados = 50
 	}
 	
+
 	override gestionarRespuestaDe(Usuario user, Respuesta respuesta) {
 		super.gestionarRespuestaDe(user, respuesta)
 		if(user.respondioAntesDeUnMinuto(this)) {
@@ -132,10 +128,7 @@ class DeRiesgo extends Pregunta {
 
 class Solidaria extends Pregunta {
 	
-	new() {}
-	
-	new(Usuario autor) {
-		this.autorId = autor.id
+	new() {
 		this.puntos = puntos
 	}
 	

@@ -188,84 +188,92 @@ class Bootstrap implements InitializingBean {
 	def void initPreguntas() {
 		
 		this.repoPregunta.deleteAll
-
-		this.crearPregunta(new Simple() => [
-			autorId = pepe.id
-			nombreApellidoAutor = "Pepe Palala"
-			descripcion = "¿Por que sibarita es tan rica?"
-			fechaHoraCreacion = LocalDateTime.now
-			agregarOpcion("Por la muzza")
-			agregarOpcion("Por la salsa")
-			agregarOpcion("Por la masa")
-			agregarOpcion("No hay motivo")
-			agregarOpcion("Es existencial")
-			respuestaCorrecta = "Es existencial"
-		])
-
-		this.crearPregunta(new Simple() => [
-			autorId = pancho.id
-			nombreApellidoAutor = "Pancho Rancho"
-			descripcion = "¿Cual es la masa del sol?"
-			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
-			agregarOpcion("Mucha")
-			agregarOpcion("Poca")
-			agregarOpcion("Maso")
-			agregarOpcion("No se sabe")
-			respuestaCorrecta = "Mucha"
-		])
-
-		this.crearPregunta(new DeRiesgo() => [
-			autorId = manolo.id
-			nombreApellidoAutor = "Manolo Palala"
-			descripcion = "¿Que es mas lento que un piropo de tartamudo?"
-			fechaHoraCreacion = LocalDateTime.now
-			agregarOpcion("Un caracol")
-			agregarOpcion("Higuain")
-			agregarOpcion("Una babosa")
-			agregarOpcion("Nada")
-			respuestaCorrecta = "Higuain"
-		])
-
-		this.crearPregunta(new DeRiesgo() => [
-			autorId = pancho.id
-			nombreApellidoAutor = "Pancho Rancho"
-			descripcion = "Cocodrilo que durmio es..."
-			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
-			agregarOpcion("Feroz")
-			agregarOpcion("Anfibio")
-			agregarOpcion("Cartera")
-			agregarOpcion("Yacare")
-			agregarOpcion("No existe el dicho")
-			respuestaCorrecta = "Cartera"
-		])
-
-		this.crearPregunta(new Solidaria() => [
-			autorId = casandra.id
-			nombreApellidoAutor = "Casandra Malandra"
-			descripcion = "Hamlet es una obra de..."
-			fechaHoraCreacion = LocalDateTime.now
-			puntos = 15
-			agregarOpcion("Pato donald")
-			agregarOpcion("Micky Mouse")
-			agregarOpcion("Gallo Claudio")
-			agregarOpcion("Coyote")
-			agregarOpcion("Shakespare")
-			respuestaCorrecta = "Shakespare"
-		])
-
-		this.crearPregunta(new Solidaria() => [
-			autorId = pepe.id
-			nombreApellidoAutor = "Pepe Palala"
-			descripcion = "Mas vale pajaro en mano que..."
-			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
-			puntos = 30
-			agregarOpcion("Pajaro perdido")
-			agregarOpcion("Cien volando")
-			agregarOpcion("Un avestruz")
-			agregarOpcion("Se te escape")
-			agregarOpcion("Mano sin pajaro")
-			respuestaCorrecta = "Cien volando"
-		])
+		loadData()
+		
+	}
+	
+	def loadData() {
+		// tarda menos de 2 minutos de carga aprox
+		(1 .. 5000).forEach [ cicle |
+				this.crearPregunta(new Simple() => [
+				autorId = pepe.id
+				nombreApellidoAutor = "Pepe Palala"
+				descripcion = "¿Por que sibarita es tan rica?"
+				fechaHoraCreacion = LocalDateTime.now
+				agregarOpcion("Por la muzza")
+				agregarOpcion("Por la salsa")
+				agregarOpcion("Por la masa")
+				agregarOpcion("No hay motivo")
+				agregarOpcion("Es existencial")
+				respuestaCorrecta = "Es existencial"
+			])
+	
+			this.crearPregunta(new Simple() => [
+				autorId = pancho.id
+				nombreApellidoAutor = "Pancho Rancho"
+				descripcion = "¿Cual es la masa del sol?"
+				fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
+				agregarOpcion("Mucha")
+				agregarOpcion("Poca")
+				agregarOpcion("Maso")
+				agregarOpcion("No se sabe")
+				respuestaCorrecta = "Mucha"
+			])
+	
+			this.crearPregunta(new DeRiesgo() => [
+				autorId = manolo.id
+				nombreApellidoAutor = "Manolo Palala"
+				descripcion = "¿Que es mas lento que un piropo de tartamudo?"
+				fechaHoraCreacion = LocalDateTime.now
+				agregarOpcion("Un caracol")
+				agregarOpcion("Higuain")
+				agregarOpcion("Una babosa")
+				agregarOpcion("Nada")
+				respuestaCorrecta = "Higuain"
+			])
+	
+			this.crearPregunta(new DeRiesgo() => [
+				autorId = pancho.id
+				nombreApellidoAutor = "Pancho Rancho"
+				descripcion = "Cocodrilo que durmio es..."
+				fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
+				agregarOpcion("Feroz")
+				agregarOpcion("Anfibio")
+				agregarOpcion("Cartera")
+				agregarOpcion("Yacare")
+				agregarOpcion("No existe el dicho")
+				respuestaCorrecta = "Cartera"
+			])
+	
+			this.crearPregunta(new Solidaria() => [
+				autorId = casandra.id
+				nombreApellidoAutor = "Casandra Malandra"
+				descripcion = "Hamlet es una obra de..."
+				fechaHoraCreacion = LocalDateTime.now
+				puntos = 15
+				agregarOpcion("Pato donald")
+				agregarOpcion("Micky Mouse")
+				agregarOpcion("Gallo Claudio")
+				agregarOpcion("Coyote")
+				agregarOpcion("Shakespare")
+				respuestaCorrecta = "Shakespare"
+			])
+	
+			this.crearPregunta(new Solidaria() => [
+				autorId = pepe.id
+				nombreApellidoAutor = "Pepe Palala"
+				descripcion = "Mas vale pajaro en mano que..."
+				fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
+				puntos = 30
+				agregarOpcion("Pajaro perdido")
+				agregarOpcion("Cien volando")
+				agregarOpcion("Un avestruz")
+				agregarOpcion("Se te escape")
+				agregarOpcion("Mano sin pajaro")
+				respuestaCorrecta = "Cien volando"
+			])
+		]
+			
 	}
 
 //######################### IMPLEMENTATION METHODS ##########################################

@@ -33,6 +33,8 @@ abstract class Pregunta {
 	@JsonView(#[View.Pregunta.Busqueda, View.Pregunta.Table, View.Pregunta.Edicion])
 	String id
 	
+	String tipo
+	
 	@JsonView(View.Pregunta.Table, View.Pregunta.Edicion)
 	Integer puntos
 	
@@ -96,6 +98,7 @@ class Simple extends Pregunta {
 	
 	new() {
 		this.puntos = 10
+		this.tipo = "simple"
 	}
 	
 }
@@ -108,6 +111,7 @@ class DeRiesgo extends Pregunta {
 	new() {
 		this.puntos = 100
 		this.puntosRestados = 50
+		this.tipo = "deRiesgo"
 	}
 
 	override gestionarRespuestaDe(Usuario user, Respuesta respuesta) {
@@ -122,6 +126,7 @@ class Solidaria extends Pregunta {
 	
 	new() {
 		this.puntos = puntos
+		this.tipo = "solidaria"
 	}
 	
 	override gestionarRespuestaDe(Usuario user, Respuesta respuesta) {

@@ -19,6 +19,8 @@ abstract class TemplateService {
 		val pregunta = repoPregunta.findById(idPregunta).orElseThrow([
 			throw new NotFoundException("Pregunta no encontrada")
 		])
+		val autor = buscarUsuario(pregunta.autorId)
+		pregunta.setearAutor(autor)
 		pregunta
 	}
 	

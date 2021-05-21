@@ -3,7 +3,7 @@ spring:
       mongodb:
         database: pregunta3
         host: localhost
-        port: 28001
+        port: 27017
         repositories:
           enabled: true
 

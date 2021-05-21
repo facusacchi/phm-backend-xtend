@@ -20,7 +20,7 @@ abstract class TemplateService {
 			throw new NotFoundException("Pregunta no encontrada")
 		])
 		val autor = buscarUsuario(pregunta.autorId)
-		pregunta.setearAutor(autor)
+		pregunta.setAutor(autor)
 		pregunta
 	}
 	

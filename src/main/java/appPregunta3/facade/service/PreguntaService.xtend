@@ -69,6 +69,7 @@ class PreguntaService extends TemplateService {
 			validarPuntajeAsignado(preguntaModificada, autor)
 		}
 		val modificacion = new Modificacion(
+									pregunta.autorId,
 									LocalDateTime.now,
 									pregunta.id,
 									pregunta.descripcion,
@@ -103,6 +104,10 @@ class PreguntaService extends TemplateService {
 	
 	def preguntasActivas(Set<Pregunta> preguntas) {
 		return preguntas.filter[pregunta | pregunta.estaActiva].toList
+	}
+	
+	def preguntasModificadas(Long idUsuario) {
+		repoModificacion.findByIdUsuario(idUsuario).toList
 	}
 	
 }

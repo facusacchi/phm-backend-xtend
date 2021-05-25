@@ -47,8 +47,6 @@ abstract class Pregunta {
 	@JsonView(#[View.Pregunta.Table, View.Pregunta.Busqueda, View.Pregunta.Edicion])
 	Long autorId
 	
-	transient Usuario autor
-	
 	@JsonView(View.Pregunta.Edicion)
 	String respuestaCorrecta
 	
@@ -92,6 +90,7 @@ abstract class Pregunta {
 		respuesta.puntos = puntos
 	}
 	
+	def void setAutor(Usuario autor)
 }
 
 class Simple extends Pregunta {
@@ -101,6 +100,8 @@ class Simple extends Pregunta {
 		this.tipo = "simple"
 	}
 	
+	override setAutor(Usuario autor) {}
+	
 }
 
 class DeRiesgo extends Pregunta {
@@ -108,21 +109,33 @@ class DeRiesgo extends Pregunta {
 	@Transient
 	Integer puntosRestados
 	
+	@JsonIgnore
+	@Transient
+	Usuario autor
+	
 	new() {
 		this.puntos = 100
 		this.puntosRestados = 50
 		this.tipo = "deRiesgo"
 	}
-
+	
 	override gestionarRespuestaDe(Usuario user, Respuesta respuesta) {
 		super.gestionarRespuestaDe(user, respuesta)
 		if(user.respondioAntesDeUnMinuto(this)) {
 			this.autor.restarPuntaje(puntosRestados)
 		}
 	}
+	
+	override setAutor(Usuario autor) {
+		this.autor = autor
+	}
 }
 
 class Solidaria extends Pregunta {
+	
+	@JsonIgnore
+	@Transient
+	Usuario autor
 	
 	new() {
 		this.puntos = puntos
@@ -132,6 +145,10 @@ class Solidaria extends Pregunta {
 	override gestionarRespuestaDe(Usuario user, Respuesta respuesta) {
 		super.gestionarRespuestaDe(user, respuesta)
 		this.autor.restarPuntaje(puntos)
+	}
+	
+	override setAutor(Usuario autor) {
+		this.autor = autor
 	}
 	
 }

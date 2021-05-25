@@ -1,6 +1,6 @@
 package appPregunta3.facade.service
 
-import appPregunta3.dao.RepoPregunta	
+import appPregunta3.dao.RepoPregunta		
 import appPregunta3.dominio.Pregunta
 import appPregunta3.dominio.Solidaria
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,7 +10,6 @@ import java.util.Set
 import appPregunta3.dominio.Modificacion
 import appPregunta3.dao.RepoModificacion
 import java.time.LocalDateTime
-import appPregunta3.dominio.Simple
 
 @Service
 class PreguntaService extends TemplateService {
@@ -44,9 +43,6 @@ class PreguntaService extends TemplateService {
 	
 	def preguntaPorId(String id) {
 		val pregunta = buscarPregunta(id)
-		if(!(pregunta instanceof Simple)) {
-			pregunta.autor = buscarUsuario(pregunta.autorId)
-		}
 		pregunta
 	}
 	

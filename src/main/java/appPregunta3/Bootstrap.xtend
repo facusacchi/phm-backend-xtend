@@ -193,8 +193,7 @@ class Bootstrap implements InitializingBean {
 	}
 	
 	def loadData() {
-		// tarda menos de 2 minutos de carga aprox
-		//(1 .. 5).forEach [ cicle |
+//		(1 .. 5).forEach [ cicle |
 				this.crearPregunta(new Simple() => [
 				autorId = pepe.id
 				nombreApellidoAutor = "Pepe Palala"
@@ -272,7 +271,7 @@ class Bootstrap implements InitializingBean {
 				agregarOpcion("Mano sin pajaro")
 				respuestaCorrecta = "Cien volando"
 			])
-		//]
+//		]
 			
 	}
 

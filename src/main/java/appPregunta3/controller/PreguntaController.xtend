@@ -75,4 +75,10 @@ class PreguntaController {
 		ResponseEntity.ok("Pregunta creada correctamente")
 	}
 	
+	@GetMapping("/preguntas/all/modificadas/{idUser}")
+	def preguntasModificadas(@PathVariable Long idUser) {
+		val preguntas = preguntaService.preguntasModificadas(idUser)
+		ResponseEntity.ok(preguntas)
+	}
+	
 }

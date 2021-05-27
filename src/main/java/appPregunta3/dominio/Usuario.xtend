@@ -131,7 +131,7 @@ class Usuario {
 	}
 	
 	def preguntasRespondidas() {
-		respuestas.map[respuesta | respuesta.pregunta.toLowerCase].toList
+		respuestas.map[respuesta | respuesta.pregunta.toLowerCase].toSet
 	}
 	
 }

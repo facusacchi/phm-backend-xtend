@@ -1,27 +1,20 @@
 package appPregunta3.dao
 
 import appPregunta3.dominio.Pregunta
-import java.util.List
+//import org.springframework.stereotype.Repository
+import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.mongodb.repository.Query
+import java.util.Collection
 import java.util.Set
-import org.springframework.data.repository.CrudRepository
-import org.springframework.stereotype.Repository
-import org.springframework.data.jpa.repository.EntityGraph
-import org.springframework.data.jpa.repository.Query
 
-@Repository
-interface RepoPregunta extends CrudRepository<Pregunta, Long> {
+//@Repository
+interface RepoPregunta extends MongoRepository<Pregunta, String> {
 
-	@EntityGraph(attributePaths=#["autor"])
-	def List<Pregunta> findByDescripcionContainsIgnoreCase(String descripcion)
+	def Collection<Pregunta> findByDescripcionContainsIgnoreCase(String descripcion)
 
-	@EntityGraph(attributePaths=#["opciones", "autor"])
-	override Set<Pregunta> findAll()
+//	override Set<Pregunta> findAll()
+//	override findById(Long id)
 
-	@EntityGraph(attributePaths=#["opciones", "autor"])
-	override findById(Long id)
-
-	@EntityGraph(attributePaths=#["autor"])
-	@Query("SELECT p FROM Pregunta p WHERE p.descripcion not in 
-	(SELECT r.pregunta FROM Usuario u INNER JOIN u.respuestas r WHERE p.descripcion = r.pregunta AND u.id = ?1)")
-	def List<Pregunta> findAllNoRespondidasPor(Long idUser)
+	@Query("{ descripcion: { $nin:?0 } }")
+	def Set<Pregunta> findAllNoRespondidasPor(Set<String> preguntasRespondidas)
 }

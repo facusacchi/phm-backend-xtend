@@ -26,7 +26,7 @@ class UsuarioService extends TemplateService {
 		usuario
 	}
 	
-	def responder(Long idUser, Long idPregunta, Respuesta respuesta) {
+	def responder(Long idUser, String idPregunta, Respuesta respuesta) {
 		validarAntesDeResponder(respuesta)
 		val pregunta = buscarPregunta(idPregunta)
 		val usuario = buscarUsuario(idUser)
@@ -84,6 +84,10 @@ class UsuarioService extends TemplateService {
 	def validarCamposDeUsuarios(Usuario nuevoAmigo, Usuario usuarioLogueado) {
 		nuevoAmigo.validarCamposVacios
 		usuarioLogueado.validarCamposVacios
+	}
+	
+	def findAllPreguntasRespondidasPor(Long userId) {
+		repoUsuario.findAllPreguntasRespondidasPor(userId)
 	}
 	
 }

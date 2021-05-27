@@ -32,7 +32,7 @@ class PreguntaControllerTest {
 	
 	@BeforeEach()
 	def void init() {
-		preguntaId = repoPregunta.findAll.head.id
+		//preguntaId = repoPregunta.findAll.head.id
 	}
 	
 	@Test

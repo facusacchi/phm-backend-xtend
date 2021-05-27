@@ -1,26 +1,33 @@
 package appPregunta3.facade.service
 
-import appPregunta3.dao.RepoPregunta	
+import appPregunta3.dao.RepoPregunta		
 import appPregunta3.dominio.Pregunta
 import appPregunta3.dominio.Solidaria
-import appPregunta3.dominio.Usuario
-import java.util.List
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionPregunta.*
-
+import java.util.Set
+import appPregunta3.dominio.Modificacion
+import appPregunta3.dao.RepoModificacion
+import java.time.LocalDateTime
 
 @Service
 class PreguntaService extends TemplateService {
 	@Autowired
 	RepoPregunta repoPregunta
 	
+	@Autowired
+	RepoModificacion repoModificacion
+	
+	@Autowired
+	UsuarioService serviceUsuario
+	
 	def getPreguntasActivasPorString(String valorBusqueda, Long idUser) {
 		val user = buscarUsuario(idUser)
 		val preguntas = this.repoPregunta.findByDescripcionContainsIgnoreCase(valorBusqueda).toList
 		val preguntasNoRespondidas = preguntas.filter[ pregunta | !user.preguntasRespondidas
 			.contains(pregunta.descripcion.toLowerCase)
-		].toList
+		].toSet
 		val preguntasActivasNoRespondidas = preguntasActivas(preguntasNoRespondidas)
 		preguntasActivasNoRespondidas
 	}
@@ -34,38 +41,50 @@ class PreguntaService extends TemplateService {
 		preguntasNoRespondidas
 	}
 	
-	def preguntaPorId(Long id) {
+	def preguntaPorId(String id) {
 		val pregunta = buscarPregunta(id)
 		pregunta
 	}
 	
 	def todasLasPreguntasActivas(Long idUser) {
-		val user = buscarUsuario(idUser)
-		val preguntas = filtrarPorActivasYNoRespondidas(user)
+		val preguntas = preguntasActivas(todasLasPreguntas(idUser)).toSet
 		preguntas
 	}
 	
 	def todasLasPreguntas(Long idUser) {
-		val user = buscarUsuario(idUser)
-		val preguntas = repoPregunta.findAllNoRespondidasPor(user.id).toSet
+		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(idUser).toSet
+		val preguntas = repoPregunta.findAllNoRespondidasPor(preguntasRespondidas)
 		preguntas
 	}
 	
-	
-	def actualizarPregunta(Pregunta preguntaModificada, Long id) {
+	def actualizarPregunta(Pregunta preguntaModificada, String id) {
 		preguntaModificada.validarCamposVacios
 		val pregunta = buscarPregunta(id)
-		val autor = buscarUsuario(pregunta.autor.id)
+		val autor = buscarUsuario(pregunta.autorId)
 		if(preguntaModificada instanceof Solidaria) {
 			validarPuntajeAsignado(preguntaModificada, autor)
 		}
+		val modificacion = new Modificacion(
+									pregunta.autorId,
+									LocalDateTime.now,
+									pregunta.id,
+									pregunta.descripcion,
+									preguntaModificada.descripcion,
+									pregunta.respuestaCorrecta,
+									preguntaModificada.respuestaCorrecta,
+									pregunta.opciones,
+									preguntaModificada.opciones
+								)
+		
 		pregunta => [
 			descripcion = preguntaModificada.descripcion
 			opciones = preguntaModificada.opciones
 			respuestaCorrecta = preguntaModificada.respuestaCorrecta
 			puntos = preguntaModificada.puntos
 		]
+		
 		repoPregunta.save(pregunta)
+		repoModificacion.save(modificacion)
 	}
 	
 	def crearPregunta(Pregunta bodyPregunta, Long idAutor) {
@@ -74,16 +93,17 @@ class PreguntaService extends TemplateService {
 		if(bodyPregunta instanceof Solidaria) {
 			validarPuntajeAsignado(bodyPregunta, autor)
 		}
-		bodyPregunta.autor = autor
+		bodyPregunta.nombreApellidoAutor = autor.nombre + " " + autor.apellido
+		bodyPregunta.autorId = autor.id
 		repoPregunta.save(bodyPregunta)
 	}
 	
-	def filtrarPorActivasYNoRespondidas(Usuario user) {
-		return preguntasActivas(repoPregunta.findAllNoRespondidasPor(user.id)).toSet
+	def preguntasActivas(Set<Pregunta> preguntas) {
+		return preguntas.filter[pregunta | pregunta.estaActiva].toList
 	}
 	
-	def preguntasActivas(List<Pregunta> preguntas) {
-		return preguntas.filter[pregunta | pregunta.estaActiva].toList
+	def preguntasModificadas(Long idUsuario) {
+		repoModificacion.findByIdUsuario(idUsuario).toList
 	}
 	
 }

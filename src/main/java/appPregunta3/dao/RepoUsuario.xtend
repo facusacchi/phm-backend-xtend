@@ -23,6 +23,6 @@ interface RepoUsuario extends CrudRepository<Usuario, Long> {
 	SELECT a FROM Usuario u INNER JOIN u.amigos a WHERE u.id = ?1) AND u.id != ?1")
 	def Set<Usuario> findNoAmigosDe(Long userId)
 	
-	@Query("SELECT r.pregunta FROM Usuario u INNER JOIN u.respuestas r WHERE u.id = ?1")
-	def List<String> findAllPreguntasRespondidasPor(Long idUser)
+//	@Query("SELECT r.pregunta FROM Usuario u INNER JOIN u.respuestas r WHERE u.id = ?1")
+//	def List<String> findAllPreguntasRespondidasPor(Long idUser)
 }

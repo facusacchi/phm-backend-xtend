@@ -29,7 +29,6 @@ import javax.persistence.TableGenerator
 @Accessors
 class Usuario {
 	
-	
 	@Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "usuario-generator")
 	@TableGenerator(name = "usuario-generator",
       table = "dep_ids",
@@ -65,10 +64,11 @@ class Usuario {
 	//@Column(columnDefinition = "CHECK (puntaje > 0)")
 	Integer puntaje
 	
-	@JsonView(View.Usuario.Perfil)
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@OrderColumn
-	List<Respuesta> respuestas = new ArrayList<Respuesta>
+//	@JsonView(View.Usuario.Perfil)
+//	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+//	@OrderColumn
+//	List<Respuesta> respuestas = new ArrayList<Respuesta>
+
 	static String DATE_PATTERN = "yyyy-MM-dd"
 
     @JsonView(View.Usuario.Perfil)
@@ -104,9 +104,9 @@ class Usuario {
 		nombre.toLowerCase.contains(valorBusqueda.toLowerCase) || apellido.toLowerCase.equals(valorBusqueda.toLowerCase)
 	}
 
-	def agregarRespuesta(Respuesta respuesta) {
-		respuestas.add(respuesta)
-	}
+//	def agregarRespuesta(Respuesta respuesta) {
+//		respuestas.add(respuesta)
+//	}
 	
 	def agregarAmigo(Usuario usuario){
 		amigos.add(usuario)
@@ -123,16 +123,17 @@ class Usuario {
 		} else {
 			respuesta.puntos = 0
 		}
-		agregarRespuesta(respuesta)
+//		agregarRespuesta(respuesta)
+		
 	}
 
 	def respondioAntesDeUnMinuto(Pregunta pregunta) {
 		pregunta.fechaHoraCreacion.plusMinutes(1).isAfter(LocalDateTime.now)
 	}
 	
-	def preguntasRespondidas() {
-		respuestas.map[respuesta | respuesta.pregunta.toLowerCase].toSet
-	}
+//	def preguntasRespondidas() {
+//		respuestas.map[respuesta | respuesta.pregunta.toLowerCase].toSet
+//	}
 	
 }
 

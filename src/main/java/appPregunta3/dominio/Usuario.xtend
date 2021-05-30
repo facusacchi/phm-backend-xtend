@@ -124,7 +124,7 @@ class Usuario {
 			respuesta.puntos = 0
 		}
 //		agregarRespuesta(respuesta)
-		
+		respuesta		
 	}
 
 	def respondioAntesDeUnMinuto(Pregunta pregunta) {

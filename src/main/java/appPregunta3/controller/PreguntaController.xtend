@@ -24,15 +24,15 @@ class PreguntaController {
 	@GetMapping(value="/preguntas/activas/{valorBusqueda}/noRespondidasPorUsuario/{idUser}")
 	@JsonView(value=View.Pregunta.Busqueda)
 	def getPreguntasActivasPorString(@PathVariable String valorBusqueda, @PathVariable Long idUser) {
-//		val preguntas = this.preguntaService.getPreguntasActivasPorString(valorBusqueda, idUser)
-//		ResponseEntity.ok(preguntas)
+		val preguntas = this.preguntaService.getPreguntasActivasPorString(valorBusqueda, idUser)
+		ResponseEntity.ok(preguntas)
 	}
 	
 	@GetMapping(value="/preguntas/all/{valorBusqueda}/noRespondidasPorUsuario/{idUser}")
 	@JsonView(value=View.Pregunta.Busqueda)
 	def getPreguntasAllPorString(@PathVariable String valorBusqueda, @PathVariable Long idUser) {
-//		val preguntas = this.preguntaService.getPreguntasAllPorString(valorBusqueda, idUser)
-//		ResponseEntity.ok(preguntas)
+		val preguntas = this.preguntaService.getPreguntasAllPorString(valorBusqueda, idUser)
+		ResponseEntity.ok(preguntas)
 	}
 	
 	@GetMapping("/pregunta/{id}")

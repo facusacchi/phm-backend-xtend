@@ -23,22 +23,20 @@ class PreguntaService extends TemplateService {
 	UsuarioService serviceUsuario
 	
 	def getPreguntasActivasPorString(String valorBusqueda, Long idUser) {
-		val user = buscarUsuario(idUser)
 		val preguntas = this.repoPregunta.findByDescripcionContainsIgnoreCase(valorBusqueda).toList
-//		val preguntasNoRespondidas = preguntas.filter[ pregunta | !user.preguntasRespondidas
-//			.contains(pregunta.descripcion.toLowerCase)
-//		].toSet
-//		val preguntasActivasNoRespondidas = preguntasActivas(preguntasNoRespondidas)
-//		preguntasActivasNoRespondidas
+		val preguntasNoRespondidas = preguntas.filter[ pregunta | !serviceUsuario.findAllPreguntasRespondidasPor(idUser)
+			.contains(pregunta.descripcion.toLowerCase)
+		].toSet
+		val preguntasActivasNoRespondidas = preguntasActivas(preguntasNoRespondidas)
+		preguntasActivasNoRespondidas
 	}
 	
 	def getPreguntasAllPorString(String valorBusqueda, Long idUser) {
-		val user = buscarUsuario(idUser)
 		val preguntas = this.repoPregunta.findByDescripcionContainsIgnoreCase(valorBusqueda).toList
-//		val preguntasNoRespondidas = preguntas.filter[ pregunta | !user.preguntasRespondidas
-//			.contains(pregunta.descripcion.toLowerCase)
-//		].toList
-//		preguntasNoRespondidas
+		val preguntasNoRespondidas = preguntas.filter[ pregunta | !serviceUsuario.findAllPreguntasRespondidasPor(idUser)
+			.contains(pregunta.descripcion.toLowerCase)
+		].toList
+		preguntasNoRespondidas
 	}
 	
 	def preguntaPorId(String id) {
@@ -47,14 +45,15 @@ class PreguntaService extends TemplateService {
 	}
 	
 	def todasLasPreguntasActivas(Long idUser) {
-//		val preguntas = preguntasActivas(todasLasPreguntas(idUser)).toSet
-//		preguntas
+		val preguntas = preguntasActivas(todasLasPreguntas(idUser)).toSet
+		preguntas
 	}
 	
 	def todasLasPreguntas(Long idUser) {
-//		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(idUser).toSet
-//		val preguntas = repoPregunta.findAllNoRespondidasPor(preguntasRespondidas)
-//		preguntas
+		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(idUser).toSet
+		print(preguntasRespondidas)
+		val preguntas = repoPregunta.findAllNoRespondidasPor(preguntasRespondidas)
+		preguntas
 	}
 	
 	def actualizarPregunta(Pregunta preguntaModificada, String id) {

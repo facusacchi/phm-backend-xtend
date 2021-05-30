@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.stereotype.Repository
 import org.springframework.data.jpa.repository.Query
 import java.util.Set
-import java.util.List
 
 @Repository
 interface RepoUsuario extends CrudRepository<Usuario, Long> {
@@ -16,7 +15,7 @@ interface RepoUsuario extends CrudRepository<Usuario, Long> {
 	
 	def Optional<Usuario> findByUserName(String userName);
 	
-	@EntityGraph(attributePaths=#["amigos","respuestas"])
+	@EntityGraph(attributePaths=#["amigos"])
 	override findById(Long id)
 	
 	@Query("SELECT u FROM Usuario u WHERE u not in (

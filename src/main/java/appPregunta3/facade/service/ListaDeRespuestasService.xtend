@@ -17,10 +17,13 @@ class ListaDeRespuestasService {
 		val listaDeRespuestas = repoListaDeRespuestas.findById(idUser).orElseThrow([
 			throw new NotFoundException("Respuestas no encontradas")
 		])
-		val objectMapper = new ObjectMapper();
-		val listaToJson = listaDeRespuestas.respuestas.map(respuesta|objectMapper.readValue(respuesta, Respuesta)).toList
-//		listaDeRespuestas.respuestas
-		listaToJson
+		listaDeRespuestas
+	}
+	
+	def agregarRespuestaAlUsuario(Respuesta respuesta, Long idUser) {
+		val listaDeRespuestas = getRespuestasPorUsuario(idUser)
+		listaDeRespuestas.agregarRespuesta(respuesta)
+		repoListaDeRespuestas.save(listaDeRespuestas)
 	}
 
 }

@@ -10,8 +10,6 @@ import com.fasterxml.jackson.annotation.JsonView
 import appPregunta3.serializer.View
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.http.MediaType
 import com.fasterxml.jackson.databind.ObjectMapper
 import appPregunta3.dominio.Respuesta
 
@@ -24,14 +22,11 @@ class ListaDeRespuestasController {
 	ListaDeRespuestasService listaDeRespuestasService
 	
 	@GetMapping(value="/usuario/{idUser}")
-//	, produces=MediaType.APPLICATION_JSON_VALUE)
 	@JsonView(value=View.Usuario.Perfil)
-//	@ResponseBody
 	def getRespuestasPorUsuario(@PathVariable Long idUser) {
 		val listaDeRespuestas = listaDeRespuestasService.getRespuestasPorUsuario(idUser)
 		val objectMapper = new ObjectMapper();
 		val listaToJson = listaDeRespuestas.respuestas.map(respuesta|objectMapper.readValue(respuesta, Respuesta)).toList
-//		listaDeRespuestas.respuestas
 		ResponseEntity.ok(listaToJson)
 	}
 	

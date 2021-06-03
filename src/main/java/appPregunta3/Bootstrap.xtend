@@ -51,7 +51,7 @@ class Bootstrap implements InitializingBean {
 
 		repoListaDeRespuestas.save(new ListaDeRespuestas => [
 
-			idUsuario = 1L // pepe.id
+			idUsuario = pepe.id
 			agregarRespuesta(
 				new Respuesta => [
 					pregunta = "¿Cuantos años tiene Mirtha Legrand?"
@@ -97,7 +97,7 @@ class Bootstrap implements InitializingBean {
 
 		repoListaDeRespuestas.save(new ListaDeRespuestas => [
 
-			idUsuario = 2L // manolo.id
+			idUsuario = manolo.id
 			agregarRespuesta(
 				new Respuesta => [
 					pregunta = "¿Cuantas provincias tiene Argentina?"
@@ -137,7 +137,7 @@ class Bootstrap implements InitializingBean {
 
 		repoListaDeRespuestas.save(new ListaDeRespuestas => [
 
-			idUsuario = 3L // nancy.id
+			idUsuario = nancy.id
 			agregarRespuesta(
 				new Respuesta => [
 					pregunta = "¿Cuantas provincias tiene Argentina?"

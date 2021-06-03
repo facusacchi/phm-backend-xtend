@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import appPregunta3.dao.RepoListaDeRespuestas
 import appPregunta3.exceptions.NotFoundException
 import org.springframework.stereotype.Service
-import com.fasterxml.jackson.databind.ObjectMapper
 import appPregunta3.dominio.Respuesta
 
 @Service

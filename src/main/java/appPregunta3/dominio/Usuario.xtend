@@ -19,6 +19,9 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import appPregunta3.serializer.View
 import javax.persistence.GenerationType
 import javax.persistence.TableGenerator
+import java.util.List
+import java.util.ArrayList
+import javax.persistence.Transient
 
 @Entity
 @Accessors
@@ -58,6 +61,10 @@ class Usuario {
 	@Column(length=50) //UNSIGNED INT(11) 
 	//@Column(columnDefinition = "CHECK (puntaje > 0)")
 	Integer puntaje
+	
+	@JsonView(View.Usuario.Perfil)
+	@Transient 
+	List<Respuesta> respuestas = new ArrayList<Respuesta>
 	
 	static String DATE_PATTERN = "yyyy-MM-dd"
 

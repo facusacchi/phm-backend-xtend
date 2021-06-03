@@ -10,7 +10,6 @@ import static extension appPregunta3.validaciones.ValidacionUsuario.*
 import static extension appPregunta3.validaciones.ValidacionRespuesta.*
 import appPregunta3.exceptions.NotFoundException
 import com.fasterxml.jackson.databind.ObjectMapper
-import appPregunta3.dto.UsuarioDTO
 
 @Service
 class UsuarioService extends TemplateService {
@@ -47,8 +46,8 @@ class UsuarioService extends TemplateService {
 		val listaDeRespuestas = listaDeRespuestasService.getRespuestasPorUsuario(idUser)
 		val objectMapper = new ObjectMapper();
 		val respuestas = listaDeRespuestas.respuestas.map(respuesta|objectMapper.readValue(respuesta, Respuesta)).toList
-		val usuarioDTO = new UsuarioDTO(usuario, respuestas)
-		usuarioDTO
+		usuario.respuestas = respuestas
+		usuario
 	}	
 	
 	def actualizarUsuario(Long idUser, Usuario user) {

@@ -13,6 +13,8 @@ import java.time.LocalDateTime
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import appPregunta3.dominio.ListaDeRespuestas
+import appPregunta3.dao.RepoListaDeRespuestas
 
 @Service
 class Bootstrap implements InitializingBean {
@@ -22,6 +24,9 @@ class Bootstrap implements InitializingBean {
 
 	@Autowired
 	RepoPregunta repoPregunta
+
+	@Autowired
+	RepoListaDeRespuestas repoListaDeRespuestas
 
 	Usuario pepe
 	Usuario manolo
@@ -40,33 +45,42 @@ class Bootstrap implements InitializingBean {
 			password = "123"
 			puntaje = 1098
 			fechaDeNacimiento = LocalDate.of(1990, 7, 28)
-
-			agregarRespuesta(new Respuesta => [
-				pregunta = "¿Cuantos años tiene Mirtha Legrand?"
-				puntos = 500
-				fechaRespuesta = LocalDate.of(2020, 4, 16)
-			])
-
-			agregarRespuesta(new Respuesta => [
-				pregunta = "Cocodrilo que durmio es..."
-				puntos = 100
-				fechaRespuesta = LocalDate.of(2021, 3, 24)
-			])
-
-			agregarRespuesta(new Respuesta => [
-				pregunta = "¿Cuantas provincias tiene Argentina?"
-				puntos = 100
-				fechaRespuesta = LocalDate.of(2021, 3, 24)
-			])
-			
-			agregarRespuesta(new Respuesta => [
-				pregunta = "¿De que color es el cielo?"
-				puntos = 50
-				fechaRespuesta = LocalDate.of(2021, 5, 3)
-			])
 		]
 
 		this.crearUsuario(pepe)
+
+		repoListaDeRespuestas.save(new ListaDeRespuestas => [
+
+			idUsuario = pepe.id
+			agregarRespuesta(
+				new Respuesta => [
+					pregunta = "¿Cuantos años tiene Mirtha Legrand?"
+					puntos = 500
+					fechaRespuesta = LocalDate.of(2020, 4, 16)
+				]
+			)
+			agregarRespuesta(
+				new Respuesta => [
+					pregunta = "¿De que color es el cielo?"
+					puntos = 50
+					fechaRespuesta = LocalDate.of(2021, 5, 3)
+				]
+			)
+			agregarRespuesta(
+				new Respuesta => [
+					pregunta = "Cocodrilo que durmio es..."
+					puntos = 100
+					fechaRespuesta = LocalDate.of(2021, 3, 24)
+				]
+			)
+			agregarRespuesta(
+				new Respuesta => [
+					pregunta = "¿Cuantas provincias tiene Argentina?"
+					puntos = 100
+					fechaRespuesta = LocalDate.of(2021, 3, 24)
+				]
+			)
+		])
 
 		manolo = new Usuario => [
 			nombre = "Manolo"
@@ -75,29 +89,37 @@ class Bootstrap implements InitializingBean {
 			password = "456"
 			puntaje = 304
 			fechaDeNacimiento = LocalDate.of(1995, 10, 4)
-
-			agregarRespuesta(new Respuesta => [
-				pregunta = "¿Cuantas provincias tiene Argentina?"
-				puntos = 100
-				fechaRespuesta = LocalDate.of(2021, 3, 24)
-			])
-
-			agregarRespuesta(new Respuesta => [
-				pregunta = "Cocodrilo que durmio es..."
-				puntos = 100
-				fechaRespuesta = LocalDate.of(2021, 3, 24)
-			])
-			
-			agregarRespuesta(new Respuesta => [
-				pregunta = "¿De que color es el cielo?"
-				puntos = 50
-				fechaRespuesta = LocalDate.of(2021, 5, 3)
-			])
 		]
 
 		manolo.agregarAmigo(pepe)
 
 		this.crearUsuario(manolo)
+
+		repoListaDeRespuestas.save(new ListaDeRespuestas => [
+
+			idUsuario = manolo.id
+			agregarRespuesta(
+				new Respuesta => [
+					pregunta = "¿Cuantas provincias tiene Argentina?"
+					puntos = 100
+					fechaRespuesta = LocalDate.of(2021, 3, 24)
+				]
+			)
+			agregarRespuesta(
+				new Respuesta => [
+					pregunta = "Cocodrilo que durmio es..."
+					puntos = 100
+					fechaRespuesta = LocalDate.of(2021, 3, 24)
+				]
+			)
+			agregarRespuesta(
+				new Respuesta => [
+					pregunta = "¿De que color es el cielo?"
+					puntos = 50
+					fechaRespuesta = LocalDate.of(2021, 5, 3)
+				]
+			)
+		])
 
 		nancy = new Usuario => [
 			nombre = "Nancy"
@@ -106,18 +128,24 @@ class Bootstrap implements InitializingBean {
 			password = "123"
 			puntaje = 4089
 			fechaDeNacimiento = LocalDate.of(1985, 5, 7)
-			
-			agregarRespuesta(new Respuesta => [
-				pregunta = "¿Cuantas provincias tiene Argentina?"
-				puntos = 100
-				fechaRespuesta = LocalDate.of(2021, 3, 24)
-			])
 		]
 
 		nancy.agregarAmigo(manolo)
 		nancy.agregarAmigo(pepe)
 
 		this.crearUsuario(nancy)
+
+		repoListaDeRespuestas.save(new ListaDeRespuestas => [
+
+			idUsuario = nancy.id
+			agregarRespuesta(
+				new Respuesta => [
+					pregunta = "¿Cuantas provincias tiene Argentina?"
+					puntos = 100
+					fechaRespuesta = LocalDate.of(2021, 3, 24)
+				]
+			)
+		])
 
 		casandra = new Usuario => [
 			nombre = "Casandra"
@@ -186,93 +214,92 @@ class Bootstrap implements InitializingBean {
 
 //########################### INIT PREGUNTAS #####################################################//	
 	def void initPreguntas() {
-		
+
 		this.repoPregunta.deleteAll
 		loadData()
-		
+
 	}
-	
+
 	def loadData() {
 //		(1 .. 5).forEach [ cicle |
-				this.crearPregunta(new Simple() => [
-				autorId = pepe.id
-				nombreApellidoAutor = "Pepe Palala"
-				descripcion = "¿Por que sibarita es tan rica?"
-				fechaHoraCreacion = LocalDateTime.now
-				agregarOpcion("Por la muzza")
-				agregarOpcion("Por la salsa")
-				agregarOpcion("Por la masa")
-				agregarOpcion("No hay motivo")
-				agregarOpcion("Es existencial")
-				respuestaCorrecta = "Es existencial"
-			])
-	
-			this.crearPregunta(new Simple() => [
-				autorId = pancho.id
-				nombreApellidoAutor = "Pancho Rancho"
-				descripcion = "¿Cual es la masa del sol?"
-				fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
-				agregarOpcion("Mucha")
-				agregarOpcion("Poca")
-				agregarOpcion("Maso")
-				agregarOpcion("No se sabe")
-				respuestaCorrecta = "Mucha"
-			])
-	
-			this.crearPregunta(new DeRiesgo() => [
-				autorId = manolo.id
-				nombreApellidoAutor = "Manolo Palala"
-				descripcion = "¿Que es mas lento que un piropo de tartamudo?"
-				fechaHoraCreacion = LocalDateTime.now
-				agregarOpcion("Un caracol")
-				agregarOpcion("Higuain")
-				agregarOpcion("Una babosa")
-				agregarOpcion("Nada")
-				respuestaCorrecta = "Higuain"
-			])
-	
-			this.crearPregunta(new DeRiesgo() => [
-				autorId = pancho.id
-				nombreApellidoAutor = "Pancho Rancho"
-				descripcion = "Cocodrilo que durmio es..."
-				fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
-				agregarOpcion("Feroz")
-				agregarOpcion("Anfibio")
-				agregarOpcion("Cartera")
-				agregarOpcion("Yacare")
-				agregarOpcion("No existe el dicho")
-				respuestaCorrecta = "Cartera"
-			])
-	
-			this.crearPregunta(new Solidaria() => [
-				autorId = casandra.id
-				nombreApellidoAutor = "Casandra Malandra"
-				descripcion = "Hamlet es una obra de..."
-				fechaHoraCreacion = LocalDateTime.now
-				puntos = 15
-				agregarOpcion("Pato donald")
-				agregarOpcion("Micky Mouse")
-				agregarOpcion("Gallo Claudio")
-				agregarOpcion("Coyote")
-				agregarOpcion("Shakespare")
-				respuestaCorrecta = "Shakespare"
-			])
-	
-			this.crearPregunta(new Solidaria() => [
-				autorId = pepe.id
-				nombreApellidoAutor = "Pepe Palala"
-				descripcion = "Mas vale pajaro en mano que..."
-				fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
-				puntos = 30
-				agregarOpcion("Pajaro perdido")
-				agregarOpcion("Cien volando")
-				agregarOpcion("Un avestruz")
-				agregarOpcion("Se te escape")
-				agregarOpcion("Mano sin pajaro")
-				respuestaCorrecta = "Cien volando"
-			])
+		this.crearPregunta(new Simple() => [
+			autorId = pepe.id
+			nombreApellidoAutor = "Pepe Palala"
+			descripcion = "¿Por que sibarita es tan rica?"
+			fechaHoraCreacion = LocalDateTime.now
+			agregarOpcion("Por la muzza")
+			agregarOpcion("Por la salsa")
+			agregarOpcion("Por la masa")
+			agregarOpcion("No hay motivo")
+			agregarOpcion("Es existencial")
+			respuestaCorrecta = "Es existencial"
+		])
+
+		this.crearPregunta(new Simple() => [
+			autorId = pancho.id
+			nombreApellidoAutor = "Pancho Rancho"
+			descripcion = "¿Cual es la masa del sol?"
+			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
+			agregarOpcion("Mucha")
+			agregarOpcion("Poca")
+			agregarOpcion("Maso")
+			agregarOpcion("No se sabe")
+			respuestaCorrecta = "Mucha"
+		])
+
+		this.crearPregunta(new DeRiesgo() => [
+			autorId = manolo.id
+			nombreApellidoAutor = "Manolo Palala"
+			descripcion = "¿Que es mas lento que un piropo de tartamudo?"
+			fechaHoraCreacion = LocalDateTime.now
+			agregarOpcion("Un caracol")
+			agregarOpcion("Higuain")
+			agregarOpcion("Una babosa")
+			agregarOpcion("Nada")
+			respuestaCorrecta = "Higuain"
+		])
+
+		this.crearPregunta(new DeRiesgo() => [
+			autorId = pancho.id
+			nombreApellidoAutor = "Pancho Rancho"
+			descripcion = "Cocodrilo que durmio es..."
+			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
+			agregarOpcion("Feroz")
+			agregarOpcion("Anfibio")
+			agregarOpcion("Cartera")
+			agregarOpcion("Yacare")
+			agregarOpcion("No existe el dicho")
+			respuestaCorrecta = "Cartera"
+		])
+
+		this.crearPregunta(new Solidaria() => [
+			autorId = casandra.id
+			nombreApellidoAutor = "Casandra Malandra"
+			descripcion = "Hamlet es una obra de..."
+			fechaHoraCreacion = LocalDateTime.now
+			puntos = 15
+			agregarOpcion("Pato donald")
+			agregarOpcion("Micky Mouse")
+			agregarOpcion("Gallo Claudio")
+			agregarOpcion("Coyote")
+			agregarOpcion("Shakespare")
+			respuestaCorrecta = "Shakespare"
+		])
+
+		this.crearPregunta(new Solidaria() => [
+			autorId = pepe.id
+			nombreApellidoAutor = "Pepe Palala"
+			descripcion = "Mas vale pajaro en mano que..."
+			fechaHoraCreacion = LocalDateTime.now.minusMinutes(300)
+			puntos = 30
+			agregarOpcion("Pajaro perdido")
+			agregarOpcion("Cien volando")
+			agregarOpcion("Un avestruz")
+			agregarOpcion("Se te escape")
+			agregarOpcion("Mano sin pajaro")
+			respuestaCorrecta = "Cien volando"
+		])
 //		]
-			
 	}
 
 //######################### IMPLEMENTATION METHODS ##########################################

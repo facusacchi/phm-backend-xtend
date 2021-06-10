@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service
 import static extension appPregunta3.validaciones.ValidacionUsuario.*
 import static extension appPregunta3.validaciones.ValidacionRespuesta.*
 import appPregunta3.exceptions.NotFoundException
+import com.fasterxml.jackson.databind.ObjectMapper
 
 @Service
 class UsuarioService extends TemplateService {
 	
 	@Autowired
 	RepoUsuario repoUsuario
+	
+	@Autowired
+	ListaDeRespuestasService listaDeRespuestasService
 	
 //##########  METHODS OF ENDPOINTS ###############################################################
 
@@ -30,14 +34,19 @@ class UsuarioService extends TemplateService {
 		validarAntesDeResponder(respuesta)
 		val pregunta = buscarPregunta(idPregunta)
 		val usuario = buscarUsuario(idUser)
-		usuario.responder(pregunta, respuesta)
+		val respuestaConFecha = usuario.responder(pregunta, respuesta)
 		val esCorrecta = respuesta.esCorrecta(pregunta.respuestaCorrecta)
 		repoUsuario.save(usuario)
+		listaDeRespuestasService.agregarRespuestaAlUsuario(respuestaConFecha, idUser)
 		esCorrecta
 	}
 	
 	def buscarUsuarioPorId(Long idUser) {
 		val usuario = buscarUsuario(idUser)
+		val listaDeRespuestas = listaDeRespuestasService.getRespuestasPorUsuario(idUser)
+		val objectMapper = new ObjectMapper();
+		val respuestas = listaDeRespuestas.respuestas.map(respuesta|objectMapper.readValue(respuesta, Respuesta)).toList
+		usuario.respuestas = respuestas
 		usuario
 	}	
 	
@@ -86,8 +95,11 @@ class UsuarioService extends TemplateService {
 		usuarioLogueado.validarCamposVacios
 	}
 	
-	def findAllPreguntasRespondidasPor(Long userId) {
-		repoUsuario.findAllPreguntasRespondidasPor(userId)
+	def findAllPreguntasRespondidasPor(Long idUser) {
+		val listaDeRespuestas = listaDeRespuestasService.getRespuestasPorUsuario(idUser)
+		val objectMapper = new ObjectMapper();
+		val respuestas = listaDeRespuestas.respuestas.map(respuesta|objectMapper.readValue(respuesta, Respuesta)).toList
+		respuestas.map[respuesta | respuesta.pregunta].toSet
 	}
 	
 }

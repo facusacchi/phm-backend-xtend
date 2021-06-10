@@ -7,28 +7,25 @@ import appPregunta3.dominio.Respuesta
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.ArrayList
 import java.util.HashSet
-import java.util.List
 import java.util.Set
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.ManyToMany
-import javax.persistence.OneToMany
 import org.eclipse.xtend.lib.annotations.Accessors
 import appPregunta3.serializer.View
 import javax.persistence.GenerationType
-import javax.persistence.OrderColumn
 import javax.persistence.TableGenerator
+import java.util.List
+import java.util.ArrayList
+import javax.persistence.Transient
 
 @Entity
 @Accessors
 class Usuario {
-	
 	
 	@Id @GeneratedValue(strategy = GenerationType.TABLE, generator = "usuario-generator")
 	@TableGenerator(name = "usuario-generator",
@@ -66,9 +63,9 @@ class Usuario {
 	Integer puntaje
 	
 	@JsonView(View.Usuario.Perfil)
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@OrderColumn
+	@Transient 
 	List<Respuesta> respuestas = new ArrayList<Respuesta>
+	
 	static String DATE_PATTERN = "yyyy-MM-dd"
 
     @JsonView(View.Usuario.Perfil)
@@ -104,10 +101,6 @@ class Usuario {
 		nombre.toLowerCase.contains(valorBusqueda.toLowerCase) || apellido.toLowerCase.equals(valorBusqueda.toLowerCase)
 	}
 
-	def agregarRespuesta(Respuesta respuesta) {
-		respuestas.add(respuesta)
-	}
-	
 	def agregarAmigo(Usuario usuario){
 		amigos.add(usuario)
 	}
@@ -123,15 +116,11 @@ class Usuario {
 		} else {
 			respuesta.puntos = 0
 		}
-		agregarRespuesta(respuesta)
+		respuesta		
 	}
 
 	def respondioAntesDeUnMinuto(Pregunta pregunta) {
 		pregunta.fechaHoraCreacion.plusMinutes(1).isAfter(LocalDateTime.now)
-	}
-	
-	def preguntasRespondidas() {
-		respuestas.map[respuesta | respuesta.pregunta.toLowerCase].toSet
 	}
 	
 }

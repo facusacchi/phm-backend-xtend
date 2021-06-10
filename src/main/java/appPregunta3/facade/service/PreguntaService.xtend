@@ -23,9 +23,8 @@ class PreguntaService extends TemplateService {
 	UsuarioService serviceUsuario
 	
 	def getPreguntasActivasPorString(String valorBusqueda, Long idUser) {
-		val user = buscarUsuario(idUser)
 		val preguntas = this.repoPregunta.findByDescripcionContainsIgnoreCase(valorBusqueda).toList
-		val preguntasNoRespondidas = preguntas.filter[ pregunta | !user.preguntasRespondidas
+		val preguntasNoRespondidas = preguntas.filter[ pregunta | !serviceUsuario.findAllPreguntasRespondidasPor(idUser)
 			.contains(pregunta.descripcion.toLowerCase)
 		].toSet
 		val preguntasActivasNoRespondidas = preguntasActivas(preguntasNoRespondidas)
@@ -33,9 +32,8 @@ class PreguntaService extends TemplateService {
 	}
 	
 	def getPreguntasAllPorString(String valorBusqueda, Long idUser) {
-		val user = buscarUsuario(idUser)
 		val preguntas = this.repoPregunta.findByDescripcionContainsIgnoreCase(valorBusqueda).toList
-		val preguntasNoRespondidas = preguntas.filter[ pregunta | !user.preguntasRespondidas
+		val preguntasNoRespondidas = preguntas.filter[ pregunta | !serviceUsuario.findAllPreguntasRespondidasPor(idUser)
 			.contains(pregunta.descripcion.toLowerCase)
 		].toList
 		preguntasNoRespondidas
@@ -53,6 +51,7 @@ class PreguntaService extends TemplateService {
 	
 	def todasLasPreguntas(Long idUser) {
 		val preguntasRespondidas = serviceUsuario.findAllPreguntasRespondidasPor(idUser).toSet
+		print(preguntasRespondidas)
 		val preguntas = repoPregunta.findAllNoRespondidasPor(preguntasRespondidas)
 		preguntas
 	}
